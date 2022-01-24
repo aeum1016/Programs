@@ -59,7 +59,7 @@ int main()
             cout << "Incorrect\n";
             errors++;
         }
-        Util::printLines(12);
+        Util::printLines(25);
     }
     
     auto time2 = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count(); 
@@ -73,7 +73,7 @@ int main()
     printf("Time Per Question: %.4f seconds\n", (timeDelta / 1000.0) / (double) trials);
     printf("Accuracy: %.2f%% %d/%d\n", (trials*100.0)/(trials+errors), trials, trials+errors);
 
-    Util::printLines(2);
+    Util::printLines(3);
 
     return 0;
 
