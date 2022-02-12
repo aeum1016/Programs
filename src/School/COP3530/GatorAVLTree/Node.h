@@ -28,6 +28,15 @@ class Node
       updateBalance();
     }
 
+    Node& operator=(Node rhs)
+    {
+      this->name = rhs.name;
+      this->gatorID = rhs.gatorID;
+      this->left = rhs.left;
+      this->right = rhs.right;
+      return *this;
+    }
+
     Node* fixBalance()
     {
       updateBalance();
@@ -135,9 +144,19 @@ class Node
       return gatorID;
     }
 
+    void setGatorID(int gatorID)
+    {
+      this->gatorID = gatorID;
+    }
+
     string getName()
     {
       return name;
+    }
+
+    void setName(string name)
+    {
+      this->name = name;
     }
 
     int getBalance()

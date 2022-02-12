@@ -36,15 +36,30 @@ int main()
         tree.searchName(searchQuery);
       }
     }
+    else if(command == "remove")
+    {
+      int removeID;
+      cin >> removeID;
+      tree.deleteID(removeID);
+    }
+    else if(command == "printInorder")
+    {
+      tree.printInorder();
+    }
+    else if(command == "printPreorder")
+    {
+      tree.printPreorder();
+    }
+    else if(command == "printPostorder")
+    {
+      tree.printPostorder();
+    }
     else if(command == "printLevelCount")
     {
       tree.printLevelCount();
     }
-    
-  }
 
-  // tree.printInorder();
-  // cout << tree.root->getHeight();
+  }
 
   return 0;
 };

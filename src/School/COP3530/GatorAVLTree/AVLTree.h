@@ -3,6 +3,7 @@
 #include <string>
 
 #include "Node.h"
+#include "Validator.h"
 
 #pragma once
 
@@ -16,13 +17,20 @@ class AVLTree
 
         void insert(string name, int id)
         {
-            try
+            if(validateName(name) && validateGatorID(id))
             {
-                name = name.substr(1, name.size()-2);
-                root = insertInternal(name, id, root);
-                cout << "successful" << endl;
+                try
+                {
+                    name = name.substr(1, name.size()-2);
+                    root = insertInternal(name, id, root);
+                    cout << "successful" << endl;
+                }
+                catch(...)
+                {
+                    cout << "unsuccessful" << endl;
+                }
             }
-            catch(...)
+            else
             {
                 cout << "unsuccessful" << endl;
             }
@@ -81,25 +89,122 @@ class AVLTree
             }
         }
 
+        Node* searchParentInternal(Node* root, int searchID)
+        {
+            if(root == nullptr) throw("Failed Search");
+            if(root->getGatorID() == searchID) return root;
+            else
+            {
+                if(root->getLeftChild() != nullptr)
+                {
+                    if(root->getLeftChild()->getGatorID() == searchID) return root;
+                }
+                if(root->getRightChild() != nullptr)
+                {
+                    if(root->getRightChild()->getGatorID() == searchID) return root;
+                }
+
+                if(searchID < root->getGatorID())
+                {
+                    return searchParentInternal(root->getLeftChild(), searchID);
+                }
+                else
+                {
+                    return searchParentInternal(root->getRightChild(), searchID);
+                }
+            }
+        }
+
         void searchName(string searchName)
         {
             searchName = searchName.substr(1, searchName.size()-2);
-            Node* foundNode = searchNameInternal(root, searchName);
-            cout << (foundNode != nullptr ? to_string(foundNode->getGatorID()) : "unsuccessful") << endl;
+
+            vector<Node*> foundNodes;
+
+            foundNodes = searchNameInternal(root, searchName, foundNodes);
+
+            for(Node* node : foundNodes)
+            {
+                cout << to_string(node->getGatorID()) << endl;
+            }
+
+            if(foundNodes.empty()) cout << "unsuccessful" << endl;
         }
 
-        Node* searchNameInternal(Node* root, string searchName)
+        vector<Node*> searchNameInternal(Node* root, string searchName, vector<Node*>& foundNodes)
         {
-            if(root == nullptr) return nullptr;
-            if(root->getName() != searchName)
+            if(root == nullptr) return foundNodes;
+
+            if(root->getName() == searchName)
             {
-                Node* leftFound = searchNameInternal(root->getLeftChild(), searchName); 
-                if(leftFound != nullptr) return leftFound;
-                Node* rightFound = searchNameInternal(root->getRightChild(), searchName);
-                if(rightFound != nullptr) return rightFound;
-                else return nullptr;
+                foundNodes.push_back(root);
             }
-            else return root;
+
+            foundNodes = searchNameInternal(root->getLeftChild(), searchName, foundNodes); 
+            foundNodes = searchNameInternal(root->getRightChild(), searchName, foundNodes);
+
+            return foundNodes;
+        }
+
+        void deleteID(int deletedID)
+        {
+            try
+            {
+                root = deleteIDInternal(root, deletedID);
+                cout << "successful" << endl;
+            }
+            catch(...)
+            {
+                cout << "unsuccessful" << endl;
+            }
+        }
+
+        Node* deleteIDInternal(Node* root, int deletedID)
+        {
+            if(root == nullptr) throw("Failed deletion");
+
+            if(root->getGatorID() > deletedID)
+            {
+                root->setLeftChild(deleteIDInternal(root->getLeftChild(), deletedID));
+            }
+            else if(root->getGatorID() < deletedID)
+            {
+                root->setRightChild(deleteIDInternal(root->getRightChild(), deletedID));
+            }
+            else
+            {
+                if(root->getLeftChild() == nullptr && root->getRightChild() == nullptr)
+                {
+                    delete root;
+                    return nullptr;
+                }
+                else if(root->getLeftChild() == nullptr)
+                {
+                    Node* temp = root->getRightChild();
+                    delete root;
+                    return temp;
+                }
+                else if(root->getRightChild() == nullptr)
+                {
+                    Node* temp = root->getLeftChild();
+                    delete root;
+                    return temp;
+                }
+                else
+                {
+                    Node* IOSuccessor = root->getRightChild();
+                    while(IOSuccessor->getLeftChild() != nullptr)
+                    {
+                        IOSuccessor = IOSuccessor->getLeftChild();
+                    }
+                    int tempGatorID = IOSuccessor->getGatorID();
+                    root->setName(IOSuccessor->getName());
+                    root->setGatorID(IOSuccessor->getGatorID());
+                    root->setRightChild(deleteIDInternal(root->getRightChild(), IOSuccessor->getGatorID()));
+                    return root;
+                }
+            }
+            return root;
         }
 
         void printInorder()
@@ -136,9 +241,9 @@ class AVLTree
         void printPostorderRecursive(Node* rootNode)
         {
             if(rootNode == nullptr) return;
-            cout << rootNode->getGatorID() << " " << rootNode->getName() << endl;
             printPostorderRecursive(rootNode->getLeftChild());
             printPostorderRecursive(rootNode->getRightChild());
+            cout << rootNode->getGatorID() << " " << rootNode->getName() << endl;
         }
 
         void printLevelCount()
