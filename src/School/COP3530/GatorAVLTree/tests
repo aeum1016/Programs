@@ -1,7 +1,11 @@
-8
+15
 insert "node" 11111111
 insert "nodetwo" 22222222
 insert "nodethree" 33333333
 insert "nodefour" 44444444
 insert "nodefive" 55555555
-remove 44444444
+insert "nodesix" 66666666
+insert "nodeseven" 77777777
+insert "nodeeight" 88888888
+insert "nodenine" 99999999
+removeInorder 6

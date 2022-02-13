@@ -207,6 +207,26 @@ class AVLTree
             return root;
         }
 
+        void deleteInorder(int n)
+        {
+            if(!deleteInorderRecursive(root, 0, n)) cout << "unsuccessful" << endl;
+        }
+
+        int deleteInorderRecursive(Node* rootNode, int cur, int n)
+        {
+            if(rootNode == nullptr) return cur;
+            cur = deleteInorderRecursive(rootNode->getLeftChild(), cur, n);
+            if(cur == -1) return -1;
+            if(cur == n) 
+            {
+                deleteID(rootNode->getGatorID());
+                return -1;
+            }
+            else cur++;
+            cur = deleteInorderRecursive(rootNode->getRightChild(), cur, n);
+            return cur;
+        }
+
         void printInorder()
         {
             printInorderRecursive(root);

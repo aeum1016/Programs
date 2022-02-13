@@ -42,6 +42,12 @@ int main()
       cin >> removeID;
       tree.deleteID(removeID);
     }
+    else if(command == "removeInorder")
+    {
+      int removeNumber;
+      cin >> removeNumber;
+      tree.deleteInorder(removeNumber);
+    }
     else if(command == "printInorder")
     {
       tree.printInorder();
@@ -59,6 +65,7 @@ int main()
       tree.printLevelCount();
     }
 
+    tree.printInorder();
   }
 
   return 0;
