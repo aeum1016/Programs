@@ -229,41 +229,53 @@ class AVLTree
 
         void printInorder()
         {
-            printInorderRecursive(root);
+            string inorder = printInorderRecursive(root, "");
+            inorder = inorder.substr(0, inorder.size()-2);
+            cout << inorder << endl;
         }
         
-        void printInorderRecursive(Node* rootNode)
+        string printInorderRecursive(Node* rootNode, string output)
         {
-            if(rootNode == nullptr) return;
-            printInorderRecursive(rootNode->getLeftChild());
-            cout << rootNode->getGatorID() << " " << rootNode->getName() << endl;
-            printInorderRecursive(rootNode->getRightChild());
+            if(rootNode == nullptr) return output;
+            output = printInorderRecursive(rootNode->getLeftChild(), output);
+            output.append(rootNode->getName());
+            output.append(", ");
+            output = printInorderRecursive(rootNode->getRightChild(), output);
+            return output;
         }
 
         void printPreorder()
         {
-            printPreorderRecursive(root);
+            string preorder = printPreorderRecursive(root, "");
+            preorder = preorder.substr(0, preorder.size()-2);
+            cout << preorder << endl;
         }
 
-        void printPreorderRecursive(Node* rootNode)
+        string printPreorderRecursive(Node* rootNode, string output)
         {
-            if(rootNode == nullptr) return;
-            cout << rootNode->getGatorID() << " " << rootNode->getName() << endl;
-            printPreorderRecursive(rootNode->getLeftChild());
-            printPreorderRecursive(rootNode->getRightChild());
+            if(rootNode == nullptr) return output;
+            output.append(rootNode->getName());
+            output.append(", ");
+            output = printPreorderRecursive(rootNode->getLeftChild(), output);
+            output = printPreorderRecursive(rootNode->getRightChild(), output);
+            return output;
         }
 
         void printPostorder()
         {
-            printPostorderRecursive(root);
+            string postorder = printPostorderRecursive(root, "");
+            postorder = postorder.substr(0, postorder.size()-2);
+            cout << postorder << endl;
         }
 
-        void printPostorderRecursive(Node* rootNode)
+        string printPostorderRecursive(Node* rootNode, string output)
         {
-            if(rootNode == nullptr) return;
-            printPostorderRecursive(rootNode->getLeftChild());
-            printPostorderRecursive(rootNode->getRightChild());
-            cout << rootNode->getGatorID() << " " << rootNode->getName() << endl;
+            if(rootNode == nullptr) return output;
+            output = printPostorderRecursive(rootNode->getLeftChild(), output);
+            output = printPostorderRecursive(rootNode->getRightChild(), output);
+            output.append(rootNode->getName());
+            output.append(", ");
+            return output;
         }
 
         void printLevelCount()

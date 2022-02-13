@@ -9,7 +9,6 @@ using namespace std;
 
 class Node
 {
-
   string name = "";
   int gatorID = 0;
   Node* left = nullptr;
@@ -70,7 +69,7 @@ class Node
       if(this == nullptr) return;
       int leftH = left == nullptr ? -1 : left->height;
       int rightH = right == nullptr ? -1 : right->height;
-      height = max(leftH, rightH) + 1;
+      height = ((leftH > rightH) ? leftH : rightH) + 1;
       balance = leftH - rightH;
     }
 
@@ -81,7 +80,7 @@ class Node
       if(right != nullptr) right->updateBalanceRecur();
       int leftH = left == nullptr ? -1 : left->height;
       int rightH = right == nullptr ? -1 : right->height;
-      height = max(leftH, rightH) + 1;
+      height = ((leftH > rightH) ? leftH : rightH) + 1;
       balance = leftH - rightH;
     }
 

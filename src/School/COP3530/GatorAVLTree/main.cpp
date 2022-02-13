@@ -1,7 +1,6 @@
 #include "AVLTree.h"
 #include "Node.h"
 
-
 int main()
 {
   
@@ -64,8 +63,6 @@ int main()
     {
       tree.printLevelCount();
     }
-
-    tree.printInorder();
   }
 
   return 0;
