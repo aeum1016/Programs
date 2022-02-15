@@ -1,51 +1,43 @@
 #include "AVLTree.h"
-#include "Node.h"
 
 int main()
 {
   
   AVLTree tree;
 
-  int q;
+  int numberOfCommands;
+  cin >> numberOfCommands;
 
-  cin >> q;
-
-  for(int i = 0; i < q; i++)
+  for(int i = 0; i < numberOfCommands; i++)
   {
+
     string command;
     cin >> command;
+
     if(command == "insert")
     {
       string name;
-      int gatorID;
-      cin >> name >> gatorID;
+      string gatorID;
+      loadInput(name, gatorID); // Reads the input and stores it to name and gatorID
       tree.insert(name, gatorID);
     }
     else if(command == "search")
     {
       string searchQuery;
       cin >> searchQuery;
-      try
-      {
-        int searchID = stoi(searchQuery);
-        tree.searchID(searchID);
-      }
-      catch(...)
-      {
-        tree.searchName(searchQuery);
-      }
+      tree.search(searchQuery);
     }
     else if(command == "remove")
     {
-      int removeID;
-      cin >> removeID;
-      tree.deleteID(removeID);
+      string removeQuery;
+      cin >> removeQuery;
+      tree.removeID(removeQuery);
     }
     else if(command == "removeInorder")
     {
-      int removeNumber;
-      cin >> removeNumber;
-      tree.deleteInorder(removeNumber);
+      int removeQuery;
+      cin >> removeQuery;
+      tree.removeInorder(removeQuery);
     }
     else if(command == "printInorder")
     {
