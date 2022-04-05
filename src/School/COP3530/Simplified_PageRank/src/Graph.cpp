@@ -32,19 +32,12 @@ void Graph::calcEdgeValues()
   for(auto i = incoming_edges.begin(); i != incoming_edges.end(); i++)
     {
       string to_vertex = i->first;
-      page_ranks.emplace(to_vertex, 1.0/incoming_edges.size());
+      page_ranks.emplace(to_vertex, 1.0/vertices.size());
       for(auto j = i->second.begin(); j != i->second.end(); j++)
       {
         double from_outdegree = outgoing_edges.at(j->first).size();
         auto firstIt = incoming_edges.find(j->first);
-        if(firstIt != incoming_edges.end())
-        {
-          page_ranks.emplace(j->first, 1.0/incoming_edges.size());
-        }
-        else
-        {
-          page_ranks.emplace(j->first, 0);
-        }
+        page_ranks.emplace(j->first, 1.0/vertices.size());
         j->second = 1.0/from_outdegree;
       }
     }

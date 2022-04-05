@@ -1,4 +1,3 @@
-#include <iomanip>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -6,11 +5,13 @@
 #include <map>
 #include <unordered_set>
 #include <set>
+#include <iomanip>
 
 using namespace std;
 
 class Graph{
   private:
+    unordered_set<string> vertices;
     unordered_map<string, unordered_map<string, double>> incoming_edges;
     unordered_map<string, unordered_set<string>> outgoing_edges;
     map<string, double> page_ranks;
@@ -24,6 +25,8 @@ class Graph{
 
 void Graph::addEdge(string from, string to)
 {
+  vertices.emplace(from);
+  vertices.emplace(to);
   if(incoming_edges.find(to) == incoming_edges.end())
   {
     unordered_map<string, double> edge;
@@ -56,11 +59,21 @@ void Graph::calcEdgeValues()
       for(auto j = i->second.begin(); j != i->second.end(); j++)
       {
         double from_outdegree = outgoing_edges.at(j->first).size();
-        page_ranks.emplace(j->first, 1.0/incoming_edges.size());
+        auto firstIt = incoming_edges.find(j->first);
+        if(firstIt != incoming_edges.end())
+        {
+          page_ranks.emplace(j->first, 1.0/incoming_edges.size());
+        }
+        else
+        {
+          page_ranks.emplace(j->first, 0);
+        }
         j->second = 1.0/from_outdegree;
       }
     }
 }
+
+
 
 void Graph::pageRanks(int pIterations)
 {
@@ -70,15 +83,23 @@ void Graph::pageRanks(int pIterations)
     for(auto it = page_ranks.begin(); it != page_ranks.end(); it++)
     {
       double new_rank = 0;
-      auto firstIt = incoming_edges.at(it->first);
-      for(auto it2 = page_ranks.begin(); it2 != page_ranks.end(); it2++)
+      auto firstIt = incoming_edges.find(it->first);
+      if(firstIt != incoming_edges.end())
       {
-        if(firstIt.find(it2->first) != firstIt.end())
+        unordered_map<string, double> from_edges = firstIt->second;
+        for(auto it2 = page_ranks.begin(); it2 != page_ranks.end(); it2++)
         {
-          new_rank += it2->second * firstIt.at(it2->first);
+          if(from_edges.find(it2->first) != from_edges.end())
+          {
+            new_rank += it2->second * from_edges.at(it2->first);
+          }
         }
+        new_page_ranks.emplace(it->first, new_rank);
       }
-      new_page_ranks.emplace(it->first, new_rank);
+      else
+      {
+        new_page_ranks.emplace(it->first, 0);
+      }
     }
     page_ranks = new_page_ranks;
   }
