@@ -2,9 +2,8 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <map>
 #include <unordered_set>
-#include <set>
+#include <map>
 
 using namespace std;
 
@@ -12,14 +11,16 @@ using namespace std;
 
 class Graph{
   private:
-    unordered_set<string> vertices;
-    unordered_map<string, unordered_map<string, double>> incoming_edges;
-    unordered_map<string, unordered_set<string>> outgoing_edges;
-    map<string, double> page_ranks;
+    vector<unordered_map<int, double>> edges;
+    unordered_map<int, int> edgeOutDegrees;
+    unordered_map<int, string> intToSite;
+    unordered_map<string, int> siteToInt;
+    unordered_map<int, double> pageRanks;
   public:
     void addEdge(string from, string to);
     void calcEdgeValues();
-    void pageRanks(int pIterations);
+    void calcPageRanks(int pIterations);
     void printEdges();
+    void printOutDegrees();
     void printRanks();
 };

@@ -3,3 +3,6 @@ main:
 
 bigMain:
 	g++ -g -o out/bigProject2.exe src/bigMain.cpp
+
+test:
+	g++ -g -o out/tester.exe src/Graph.cpp src/tester.cpp

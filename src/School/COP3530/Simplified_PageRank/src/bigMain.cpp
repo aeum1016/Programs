@@ -1,125 +1,192 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <map>
 #include <unordered_set>
-#include <set>
-#include <iomanip>
+#include <map>
 
 using namespace std;
 
 class Graph{
   private:
-    unordered_set<string> vertices;
-    unordered_map<string, unordered_map<string, double>> incoming_edges;
-    unordered_map<string, unordered_set<string>> outgoing_edges;
-    map<string, double> page_ranks;
+    vector<unordered_map<int, double>> edges;
+    unordered_map<int, int> edgeOutDegrees;
+    unordered_map<int, string> intToSite;
+    unordered_map<string, int> siteToInt;
+    unordered_map<int, double> pageRanks;
   public:
     void addEdge(string from, string to);
     void calcEdgeValues();
-    void pageRanks(int pIterations);
+    void calcPageRanks(int pIterations);
     void printEdges();
+    void printOutDegrees();
     void printRanks();
 };
 
+/**
+ * Inserts a site-to-site relationship into the graph.
+ *
+ * @param from  The site that is referencing another site
+ * @param to    The site that being referenced
+ */
 void Graph::addEdge(string from, string to)
 {
-  vertices.emplace(from);
-  vertices.emplace(to);
-  if(incoming_edges.find(to) == incoming_edges.end())
+  if(siteToInt.find(to) == siteToInt.end())
   {
-    unordered_map<string, double> edge;
-    edge.emplace(from, -1);
-    incoming_edges.emplace(to, edge);
-  }
-  else
-  {
-    incoming_edges.find(to)->second.emplace(from, 1);
-  }
+  // If the TO site has not been seen
+    if(siteToInt.find(from) == siteToInt.end())
+    {
+      // If the FROM site has not been seen
+      // Add the FROM site to the graph
+      unordered_map<int, double> newAdjList2;
+      edges.push_back(newAdjList2);
+      siteToInt.emplace(from, (int) edges.size()-1);
+      intToSite.emplace((int) edges.size()-1, from);
+      edgeOutDegrees.emplace(edges.size()-1, 1);
+    }
+    else
+    {
+      // If the FROM site has been seen
+      // Increment the FROM site's outdegree
+      if(edgeOutDegrees.find(siteToInt.at(from)) == edgeOutDegrees.end())
+      {
+        edgeOutDegrees.emplace(siteToInt.at(from), 1);
+      }
+      else{
+        edgeOutDegrees.at(siteToInt.at(from)) += 1;
+      }
+    }
 
-  if(outgoing_edges.find(from) == outgoing_edges.end())
-  {
-    unordered_set<string> edge;
-    edge.emplace(to);
-    outgoing_edges.emplace(from, edge);
+    // Add the TO site to the graph
+    unordered_map<int, double> newAdjList;
+    newAdjList.emplace(siteToInt.at(from), 0.0);
+    edges.push_back(newAdjList);
+    siteToInt.emplace(to, (int) edges.size()-1);
+    intToSite.emplace((int) edges.size()-1, to);
   }
   else
   {
-    outgoing_edges.find(from)->second.emplace(to);
+    // If the TO site has been seen
+    if(siteToInt.find(from) == siteToInt.end())
+    {
+      // If the FROM site has not been seen
+      // Add the FROM site to the graph
+      edges.push_back(unordered_map<int, double>());
+      siteToInt.emplace(from, (int) edges.size()-1);
+      intToSite.emplace((int) edges.size()-1, from);
+      edgeOutDegrees.emplace(edges.size()-1, 1);
+    }
+    else
+    {
+      // If the FROM site has been seen
+      // Increment the outdegree of the FROM site
+      if(edgeOutDegrees.find(siteToInt.at(from)) == edgeOutDegrees.end())
+      {
+        edgeOutDegrees.emplace(siteToInt.at(from), 1);
+      }
+      else{
+        edgeOutDegrees.at(siteToInt.at(from)) += 1;
+      }
+    }
+    // Add the FROM site to the adj list of the TO site
+    edges.at(siteToInt.at(to)).emplace(siteToInt.at(from), 0.0);
   }
 }
 
+/**
+ * Calculates the values of 1/out_degree for all edges in
+ * the graph, i.e. the weights of the edges in the graph.
+ */
 void Graph::calcEdgeValues()
 {
-  for(auto i = incoming_edges.begin(); i != incoming_edges.end(); i++)
+  for(auto it = intToSite.begin(); it != intToSite.end(); it++)
     {
-      string to_vertex = i->first;
-      page_ranks.emplace(to_vertex, 1.0/incoming_edges.size());
-      for(auto j = i->second.begin(); j != i->second.end(); j++)
+      int to_vertex = it->first;
+      pageRanks.emplace(to_vertex, 1.0/intToSite.size());
+      if(edges.at(to_vertex).size() != 0)
       {
-        double from_outdegree = outgoing_edges.at(j->first).size();
-        auto firstIt = incoming_edges.find(j->first);
-        if(firstIt != incoming_edges.end())
+        for(auto j = edges.at(to_vertex).begin(); j != edges.at(to_vertex).end(); j++)
         {
-          page_ranks.emplace(j->first, 1.0/incoming_edges.size());
+          double from_outdegree = edgeOutDegrees.at(j->first);
+          if(from_outdegree != 0)
+          {
+            j->second = 1.0/from_outdegree;
+          }
         }
-        else
-        {
-          page_ranks.emplace(j->first, 0);
-        }
-        j->second = 1.0/from_outdegree;
       }
     }
 }
 
-
-
-void Graph::pageRanks(int pIterations)
+/**
+ * Calculates the ranks of the pages in the graph after
+ * pIterations iterations.
+ * 
+ * @param pIterations The number of iterations that the graph
+ * should run through
+ */
+void Graph::calcPageRanks(int pIterations)
 {
   for(int i = 1; i < pIterations; i++)
   {
-    map<string, double> new_page_ranks;
-    for(auto it = page_ranks.begin(); it != page_ranks.end(); it++)
+    unordered_map<int, double> newRanks;
+    for(auto it = pageRanks.begin(); it != pageRanks.end(); it++)
     {
-      double new_rank = 0;
-      auto firstIt = incoming_edges.find(it->first);
-      if(firstIt != incoming_edges.end())
+      double newRank = 0.0;
+      for(auto it2 = edges.at(it->first).begin(); it2 != edges.at(it->first).end(); it2++)
       {
-        unordered_map<string, double> from_edges = firstIt->second;
-        for(auto it2 = page_ranks.begin(); it2 != page_ranks.end(); it2++)
-        {
-          if(from_edges.find(it2->first) != from_edges.end())
-          {
-            new_rank += it2->second * from_edges.at(it2->first);
-          }
-        }
-        new_page_ranks.emplace(it->first, new_rank);
+        double prevRank = pageRanks.at(it2->first);
+        double weight = it2->second;
+        newRank += prevRank * weight;
       }
-      else
-      {
-        new_page_ranks.emplace(it->first, 0);
-      }
+      newRanks.emplace(it->first, newRank);
     }
-    page_ranks = new_page_ranks;
+    pageRanks = newRanks;
   }
 }
 
+/**
+ * Used for testing
+ * Prints a destination site followed by all of the site's 
+ * source sites and their respective weights
+ */
 void Graph::printEdges()
 {
-  for(auto it = incoming_edges.begin(); it != incoming_edges.end(); it++)
+  for(int i = 0; i < edges.size(); i++)
   {
-    cout << it->first << endl;
-    for(auto it2 = it->second.begin(); it2 != it->second.end(); it2++)
+    cout << intToSite.at(i) << endl;
+    for(auto it = edges.at(i).begin(); it != edges.at(i).end(); it++)
     {
-      cout << it2->first << " " << it2->second << endl;
+      cout << intToSite.at(it->first) << " " << it->second << endl; 
     }
   }
 }
 
+/**
+ * Used for testing
+ * Prints the site name followed by the
+ * outdegree for every site in the graph 
+ */
+void Graph::printOutDegrees()
+{
+  for(auto it = edgeOutDegrees.begin(); it != edgeOutDegrees.end(); it++)
+  {
+    cout << intToSite.at(it->first) << " " << it->second << endl;
+  }
+}
+
+/**
+ * Prints the ranks of the sites in alphabetical
+ * order.
+ */
 void Graph::printRanks()
 {
-  for(auto it = page_ranks.begin(); it != page_ranks.end(); it++)
+  map<string, double> ordered_ranks;
+  for(int i = 0; i < edges.size(); i++)
+  {
+    ordered_ranks.emplace(intToSite.at(i), pageRanks.at(i));
+  }
+  for(auto it = ordered_ranks.begin(); it != ordered_ranks.end(); it++)
   {
     cout << it->first << " " << it->second << endl;
   }
@@ -140,6 +207,8 @@ int main()
   cout << std::fixed << std::showpoint;
   cout << std::setprecision(2);
   myGraph.calcEdgeValues();
-  myGraph.pageRanks(power_iterations);
+  myGraph.calcPageRanks(power_iterations);
   myGraph.printRanks();
+  // myGraph.printEdges();
+  // myGraph.printOutDegrees();
 }

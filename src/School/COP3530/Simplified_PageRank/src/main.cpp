@@ -20,6 +20,8 @@ int main()
   cout << std::fixed << std::showpoint;
   cout << std::setprecision(2);
   myGraph.calcEdgeValues();
-  myGraph.pageRanks(power_iterations);
+  myGraph.calcPageRanks(power_iterations);
   myGraph.printRanks();
+  // myGraph.printEdges();
+  // myGraph.printOutDegrees();
 }
