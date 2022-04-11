@@ -22,18 +22,34 @@ using namespace std;
 int main()
 {
   initialize();
-  
+
   int branchAddress = 64;
+  bool end = false;
 
   string filename;
   cin >> filename;
   ifstream ifs(filename);
+  ofstream disassemblyFile("./disassembly.txt");
 
   string line;
   while(getline(ifs, line))
   {
-    if(!handleInstruction(line)) break;
+      disassemblyFile << line << "\t" << branchAddress << "\t";
+    if(!end)
+    {
+      if(!handleInstruction(line, disassemblyFile)) 
+      {
+        end = true;
+      }
+    }
+    else
+    {
+      disassemblyFile << binaryToValue(line) << "\n";
+    }
+    branchAddress+=4;
   }
+
+  disassemblyFile.close();
 
   return 0;
 }

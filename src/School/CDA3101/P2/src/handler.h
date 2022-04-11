@@ -1,3 +1,5 @@
+#include <iostream>
+#include <fstream>
 #include <unordered_map>
 #include <string>
 #include <cmath>
@@ -11,6 +13,8 @@ unordered_map<string, pair<string, opCodes>> oneOpCodes;
 unordered_map<string, pair<string, opCodes>> twoOpCodes;
 unordered_map<string, pair<string, opCodes>> threeOpCodes;
 unordered_map<string, pair<string, opCodes>> fourOpCodes;
+
+vector<int> registers(32, 0);
 
 static void initialize()
 {
@@ -62,24 +66,24 @@ string convert(string rString)
   else return "X" + to_string(r);
 }
 
-static void handleCatOne(pair<string, opCodes> opCode, string src1, int branchOffset)
+static void handleCatOne(pair<string, opCodes> opCode, string src1, int branchOffset, ofstream& file)
 {
-  cout << opCode.first << " " << src1 << ", #" << branchOffset << endl;
+  file << opCode.first << " " << src1 << ", #" << branchOffset << "\n";
 }
-static void handleCatTwo(pair<string, opCodes> opCode, string dest, string src1, int immediate)
+static void handleCatTwo(pair<string, opCodes> opCode, string dest, string src1, int immediate, ofstream& file)
 {
-  cout << opCode.first << ", " << dest << ", " << src1 << ", #" << immediate << endl;
+  file << opCode.first << ", " << dest << ", " << src1 << ", #" << immediate << endl;
 }
-static void handleCatThree(pair<string, opCodes> opCode, string dest, string src1, string src2)
+static void handleCatThree(pair<string, opCodes> opCode, string dest, string src1, string src2, ofstream& file)
 {
-  cout << opCode.first << ", " << dest << ", " << src1 << ", " << src2 << endl;
+  file << opCode.first << ", " << dest << ", " << src1 << ", " << src2 << endl;
 }
-static void handleCatFour(pair<string, opCodes> opCode, string srcdst, string src1, int immediate)
+static void handleCatFour(pair<string, opCodes> opCode, string srcdst, string src1, int immediate, ofstream& file)
 {
-  cout << opCode.first << " " << srcdst << ", [" << src1 << ", #" << immediate << "]" << endl;
+  file << opCode.first << " " << srcdst << ", [" << src1 << ", #" << immediate << "]" << endl;
 }
 
-static bool handleInstruction(string instruction)
+static bool handleInstruction(string instruction, ofstream& file)
 {
   int cat = category.at(instruction.substr(0,3));
   pair<string, opCodes> opCode;
@@ -94,7 +98,7 @@ static bool handleInstruction(string instruction)
       opCode = oneOpCodes.at(instruction.substr(3, 5));
       src1 = convert(instruction.substr(8, 5));
       branchOffset = binaryToValue(instruction.substr(13, 19));
-      handleCatOne(opCode, src1, branchOffset);
+      handleCatOne(opCode, src1, branchOffset, file);
       break;
     
     case 2:
@@ -102,7 +106,7 @@ static bool handleInstruction(string instruction)
       dest = convert(instruction.substr(10, 5));
       src1 = convert(instruction.substr(15, 5));
       immediate = binaryToValue(instruction.substr(20, 12));
-      handleCatTwo(opCode, dest, src1, immediate);
+      handleCatTwo(opCode, dest, src1, immediate, file);
       break;
 
     case 3:
@@ -110,7 +114,7 @@ static bool handleInstruction(string instruction)
       dest = convert(instruction.substr(11, 5));
       src1 = convert(instruction.substr(16, 5));
       src2 = convert(instruction.substr(21, 5));
-      handleCatThree(opCode, dest, src1, src2);
+      handleCatThree(opCode, dest, src1, src2, file);
       break;
 
     case 4:
@@ -118,10 +122,11 @@ static bool handleInstruction(string instruction)
       srcdst = convert(instruction.substr(11, 5));
       src1 = convert(instruction.substr(16, 5));
       immediate = binaryToValue(instruction.substr(21, 11));
-      handleCatFour(opCode, srcdst, src1, immediate);
+      handleCatFour(opCode, srcdst, src1, immediate, file);
       break;
 
     case -1:
+      file << "DUMMY\n";
       return false;
   }
   return true;
