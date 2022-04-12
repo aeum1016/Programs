@@ -1,18 +1,26 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
+#include <map>
 #include <string>
 #include <cmath>
+#include <cstdarg>
 
 using namespace std;
 
-enum opCodes { CBZ, CBNZ, ADDI, SUBI, ANDI, ORRI, EORI, ADD, SUB, AND, ORR, EOR, LSR, LSL, LDUR, STUR };
+#pragma once
+
+int branchAddress = 64;
+
+enum opCodes { CBZ, CBNZ, ADDI, SUBI, ANDI, ORRI, EORI, ADD, SUB, AND, ORR, EOR, LSR, LSL, LDUR, STUR, DUMMY };
 
 unordered_map<string, int> category;
 unordered_map<string, pair<string, opCodes>> oneOpCodes;
 unordered_map<string, pair<string, opCodes>> twoOpCodes;
 unordered_map<string, pair<string, opCodes>> threeOpCodes;
 unordered_map<string, pair<string, opCodes>> fourOpCodes;
+
+unordered_map<int, pair<string, opCodes>> instructions;
 
 vector<int> registers(32, 0);
 
@@ -68,19 +76,35 @@ string convert(string rString)
 
 static void handleCatOne(pair<string, opCodes> opCode, string src1, int branchOffset, ofstream& file)
 {
-  file << opCode.first << " " << src1 << ", #" << branchOffset << "\n";
+  string instruction = opCode.first + " " + src1 + ", #" + to_string(branchOffset) + "\n";
+  instructions.emplace(branchAddress, pair<string, opCodes>(instruction, opCode.second));
+  file << instruction;
 }
 static void handleCatTwo(pair<string, opCodes> opCode, string dest, string src1, int immediate, ofstream& file)
 {
-  file << opCode.first << ", " << dest << ", " << src1 << ", #" << immediate << endl;
+  string instruction = opCode.first + ", " + dest + ", " + src1 + ", #" + to_string(immediate) + "\n";
+  instructions.emplace(branchAddress, pair<string, opCodes>(instruction, opCode.second));
+  file << instruction;
 }
 static void handleCatThree(pair<string, opCodes> opCode, string dest, string src1, string src2, ofstream& file)
 {
-  file << opCode.first << ", " << dest << ", " << src1 << ", " << src2 << endl;
+  string instruction = opCode.first + ", " + dest + ", " + src1 + ", " + src2 + "\n";
+  instructions.emplace(branchAddress, pair<string, opCodes>(instruction, opCode.second));
+  file << instruction;
 }
 static void handleCatFour(pair<string, opCodes> opCode, string srcdst, string src1, int immediate, ofstream& file)
 {
-  file << opCode.first << " " << srcdst << ", [" << src1 << ", #" << immediate << "]" << endl;
+  string instruction = opCode.first + " " + srcdst + ", [" + src1 + ", #" + to_string(immediate) + "]\n";
+  instructions.emplace(branchAddress, pair<string, opCodes>(instruction, opCode.second));
+  file << instruction;
+}
+
+static void simulateInstruction(string instruction, vector<string> arguments)
+{
+  for(string arg : arguments)
+  {
+    cout << arg;
+  }
 }
 
 static bool handleInstruction(string instruction, ofstream& file)
@@ -127,6 +151,7 @@ static bool handleInstruction(string instruction, ofstream& file)
 
     case -1:
       file << "DUMMY\n";
+      instructions.emplace(branchAddress, pair<string, opCodes>("DUMMY\n", DUMMY));
       return false;
   }
   return true;

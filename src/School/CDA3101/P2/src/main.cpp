@@ -23,7 +23,6 @@ int main()
 {
   initialize();
 
-  int branchAddress = 64;
   bool end = false;
 
   string filename;
@@ -34,7 +33,7 @@ int main()
   string line;
   while(getline(ifs, line))
   {
-      disassemblyFile << line << "\t" << branchAddress << "\t";
+    disassemblyFile << line << "\t" << branchAddress << "\t";
     if(!end)
     {
       if(!handleInstruction(line, disassemblyFile)) 
@@ -50,6 +49,20 @@ int main()
   }
 
   disassemblyFile.close();
+
+  branchAddress = 64;
+
+  while(instructions.at(branchAddress).second != DUMMY)
+  {
+    switch(instructions.at(branchAddress).second)
+    {
+      case CBZ:
+        // simulateInstruction("CBZ", )
+    }
+    simulateInstruction("a", vector<string>({"a", "b", "c"}));
+    branchAddress+=4;
+  }
+
 
   return 0;
 }
