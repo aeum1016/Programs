@@ -159,6 +159,7 @@ void Simulator::handleInstruction(int cycle, int& address, pair<string, string> 
       address+=4;
       break;
   }
+  if(registers[31] != 0) registers[31] = 0;
   outFile << "Registers\n";
   printRegisters(outFile);
   outFile << "\n";

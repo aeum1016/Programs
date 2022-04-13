@@ -1,3 +1,6 @@
+/*  On  my  honor,  I  have  neither  given  nor  received 
+unauthorized aid on this assignment */
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -6,11 +9,9 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
-  string filename;
-  cin >> filename;
-  ifstream inputFile(filename);
+  ifstream inputFile(argv[argc-1]);
   Simulator s;
   s.simulate(inputFile);
 }
