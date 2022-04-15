@@ -13,5 +13,6 @@ int main(int argc, char *argv[])
 {
   ifstream inputFile(argv[argc-1]);
   Simulator s;
+  cout << s.binaryToValue("11111111111111111111111111111111");
   s.simulate(inputFile);
 }

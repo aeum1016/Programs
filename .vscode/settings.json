@@ -71,7 +71,18 @@
     "xtree": "cpp",
     "xutility": "cpp",
     "set": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "condition_variable": "cpp",
+    "cstdarg": "cpp",
+    "fstream": "cpp",
+    "functional": "cpp",
+    "future": "cpp",
+    "mutex": "cpp",
+    "numeric": "cpp",
+    "random": "cpp",
+    "regex": "cpp",
+    "stop_token": "cpp",
+    "thread": "cpp"
   },
   "editor.formatOnSave": true
 }
