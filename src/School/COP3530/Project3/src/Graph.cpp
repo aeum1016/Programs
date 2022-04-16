@@ -11,9 +11,9 @@ class Graph
     private:
         vector<Node> vertices;
     public:
-        bool addVertice(string name, vector<string> genres)
+        bool addVertice(string name, double score, vector<string> genres)
         {
-            vertices.push_back(Node(name, genres));
+            vertices.push_back(Node(name, score, genres));
             return true;
         }
         void printGraph()
@@ -38,20 +38,25 @@ class Graph
             for(int i = 0; i < vertices.size(); i++)
             {
                 if(i % 100 == 0) cout << i;
-                for(int j = 0; j < 100; j++)
+                for(int j = 0; j < vertices.size(); j++)
                 {
                     double relatedness = 0.0;
                     for(string genre : vertices[i].getGenres())
                     {
                         for(string genre2 : vertices[j].getGenres())
                         {
-                            if(genre == genre2) relatedness += 1.0/vertices[i].getGenres().size();
+                            if(genre == genre2) relatedness += 2.0/(vertices[i].getGenres().size() + vertices[j].getGenres().size());
                         }
                     }
+                    relatedness += vertices[j].getScore();
                     vertices[i].addEdge(relatedness);
                 }
             }
         }
 
+        vector<Node> getVertices()
+        {
+            return vertices;
+        }
 
 };
