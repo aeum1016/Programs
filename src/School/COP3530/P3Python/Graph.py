@@ -8,6 +8,7 @@ class graph:
 
   vertices = []
   summaries = []
+  sorted = []
 
   def __init__(self, name):
     self.name = name
@@ -29,10 +30,7 @@ class graph:
       print(node.edges)
 
   def computeEdges(self):
-    count = 0
     for v1 in self.vertices:
-      if count % 100 == 0: 
-        print(count)
       for v2 in self.vertices:
         relatedness = v2.score
         for genre in v1.genres:
@@ -40,7 +38,9 @@ class graph:
             if genre == genre2:
               relatedness += 2.0/(len(v1.genres) + len(v2.genres))
         v1.addEdge(relatedness)
-      count += 1
+
+  def sortFunc(self, e):
+    return e.similarity
 
   def similarity(self, phrase):
     model = SentenceTransformer('bert-base-nli-mean-tokens')
@@ -53,5 +53,6 @@ class graph:
     )
     for i in range(0, len(self.vertices)-1):
       self.vertices[i].similarity = result[0][i]
-    return result
+    self.sorted = self.vertices.copy()
+    self.sorted.sort(reverse=True, key=self.sortFunc)
       

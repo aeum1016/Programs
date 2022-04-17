@@ -1,4 +1,5 @@
 import json
+import time
 
 import Graph
 
@@ -6,14 +7,18 @@ all = Graph.graph("all")
 dramas = Graph.graph("dramas")
 animes = Graph.graph("animes")
 
+startTime = time.asctime( time.localtime(time.time()) )
+
 with open("animes.json", "r", encoding='utf-8') as read_file:
   animeData = json.load(read_file)
 with open("top_5000_mydramalist.json", "r", encoding='utf-8') as read_file:
   dramaData = json.load(read_file)
 
+loadTime = time.asctime( time.localtime(time.time()) )
+
 for drama in dramaData:
   rank = drama["ranking"]
-  if rank <= 3000:
+  if rank <= 500:
     genres = drama["genres"]
     score = drama["ratings"]
     summary = drama["synopsis"]
@@ -23,7 +28,7 @@ for drama in dramaData:
 for anime in animeData:
   rank = anime["ranked"]
   if rank != None:
-    if rank <= 25:
+    if rank <= 500:
       genresRaw = anime["genre"]
       genresRaw = genresRaw[1:-1]
       genresRaw = genresRaw.split(", ")
@@ -36,10 +41,18 @@ for anime in animeData:
       all.addVertice(anime["title"], score/10, genres, summary)
       animes.addVertice(anime["title"], score/10, genres, summary)
 
+addTime = time.asctime( time.localtime(time.time()) )
 animes.computeEdges()
-# dramas.computeEdges()
-# animes.printGraph()
+dramas.computeEdges()
+all.computeEdges()
+computeTime = time.asctime( time.localtime(time.time()) )
+animes.similarity("basketball go bounce")
+for i in range(0, 10):
+  print(animes.sorted[i].name + " " + str(animes.sorted[i].similarity))
+endTime = time.asctime( time.localtime(time.time()) )
+print(startTime)
+print(loadTime)
+print(addTime)
+print(computeTime)
+print(endTime)
 
-similarities = animes.similarity("play volleyball in high school")
-for i in range(0, len(animes.vertices)-1):
-  print(animes.vertices[i].name + " " + str(animes.vertices[i].similarity))
