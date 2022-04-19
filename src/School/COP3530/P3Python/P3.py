@@ -1,20 +1,17 @@
+from gettext import find
 import json
 import time
-
 import Graph
 
 all = Graph.graph("all")
 dramas = Graph.graph("dramas")
 animes = Graph.graph("animes")
 
-startTime = time.asctime( time.localtime(time.time()) )
 
 with open("animes.json", "r", encoding='utf-8') as read_file:
   animeData = json.load(read_file)
 with open("top_5000_mydramalist.json", "r", encoding='utf-8') as read_file:
   dramaData = json.load(read_file)
-
-loadTime = time.asctime( time.localtime(time.time()) )
 
 for drama in dramaData:
   rank = drama["ranking"]
@@ -22,8 +19,9 @@ for drama in dramaData:
     genres = drama["genres"]
     score = drama["ratings"]
     summary = drama["synopsis"]
-    all.addVertice(drama["name"], score/10, genres, summary)
-    dramas.addVertice(drama["name"], score/10, genres, summary)
+    popularity = drama["popularity_rank"]
+    all.addVertice(drama["name"], score/10, popularity, genres, summary)
+    dramas.addVertice(drama["name"], score/10, popularity, genres, summary)
 
 for anime in animeData:
   rank = anime["ranked"]
@@ -38,21 +36,69 @@ for anime in animeData:
         genres.append(genre)
       score = float(anime["score"])
       summary = anime["synopsis"]
-      all.addVertice(anime["title"], score/10, genres, summary)
-      animes.addVertice(anime["title"], score/10, genres, summary)
+      popularity = anime["popularity"]
+      all.addVertice(anime["title"], score/10, popularity, genres, summary)
+      animes.addVertice(anime["title"], score/10, popularity, genres, summary)
 
-addTime = time.asctime( time.localtime(time.time()) )
-animes.computeEdges()
-dramas.computeEdges()
-all.computeEdges()
-computeTime = time.asctime( time.localtime(time.time()) )
-animes.similarity("basketball go bounce")
-for i in range(0, 10):
-  print(animes.sorted[i].name + " " + str(animes.sorted[i].similarity))
-endTime = time.asctime( time.localtime(time.time()) )
-print(startTime)
-print(loadTime)
-print(addTime)
-print(computeTime)
-print(endTime)
+print("Welcome to the search for Dramas and Anime!")
+print("1. Dramas")
+print("2. Anime")
+print("3. Both")
+dataset = input("Please choose your dataset: ")
+if (dataset == '1'):
+    dramas.computeEdges()
+    dataset = dramas
+elif (dataset == '2'):
+    animes.computeEdges()
+    dataset = animes
+elif (dataset == '3'):
+    dataset = all
+    all.computeEdges()
+else:
+    print("Not valid")
+    
+keywords = input("Please enter keywords to generate 10 most similar and relevant results from synopses:\n")
+dataset.similarity(keywords)
+
+results = dataset.sorted[0:10]
+
+print("1. Sort by Popularity")
+print("2. Sort by Rating")
+algorithm = input("How do you want your results sorted? ")
+findSimilar = 0
+while(findSimilar != -1):
+  if (algorithm == '1'):
+      results.sort(key=lambda x: x.popularity, reverse=False)
+  elif (algorithm == '2'):
+      results.sort(key=lambda x: x.score, reverse=True)
+  else:
+      print("Not valid")
+    
+
+  print("Recommendations for " + recommendationsName + ":" if findSimilar != 0 else "Results:")
+
+
+  for i in range(0, 10):
+    print(str(i+1) + ". " + results[i].name + " | " + str(round(results[i].score*10,1)) + " stars | " + str(results[i].popularity) + " | " + str(results[i].similarity))
+
+
+  findSimilar = input("Search similar results to one of the previous results? Choose 1-10 or -1 to quit: ")
+  findSimilar = int(findSimilar)
+  if findSimilar == -1:
+    break
+  recommendationsName = results[findSimilar-1].name
+  for i in range(len(dataset.vertices)):
+    if(dataset.vertices[i].name == recommendationsName):
+      dataset.djikstras(i)
+      results = dataset.vertices[i].recommendations
+      results = results[0:10]
+
+
+#endTime = time.asctime( time.localtime(time.time()) )
+#print(startTime)
+#print(loadTime)
+#print(addTime)
+#print(computeTime)
+#print(endTime)
+
 
