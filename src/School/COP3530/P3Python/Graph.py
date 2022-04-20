@@ -71,8 +71,33 @@ class graph:
             recommendations.append(self.vertices[i])
       self.vertices[source].recommendations = recommendations
 
-  def sortFunc(self, e):
-    return e.similarity
+  def quickSort(self, array, attribute):
+      if (len(array) <= 1):
+          return array
+          
+      position = 0 
+
+      for i in range(1, len(array)): 
+          if getattr(array[i], attribute) <= getattr(array[0], attribute):
+                position += 1
+                temp = array[i]
+                array[i] = array[position]
+                array[position] = temp
+
+      temp = array[0]
+      array[0] = array[position] 
+      array[position] = temp 
+      
+      left = self.quickSort(array[0:position], attribute) 
+      right = self.quickSort(array[position+1:len(array)], attribute) 
+
+      array = left + [array[position]] + right 
+      
+      return array
+
+  def reverse(self, array):
+      array = array[::-1]
+      return array
 
   def similarity(self, phrase):
     model = SentenceTransformer('bert-base-nli-mean-tokens')
@@ -89,6 +114,5 @@ class graph:
         else:
             self.vertices[i].similarity = result[0][i]
     self.sorted = self.vertices.copy()
-    self.sorted.sort(key=lambda x: x.similarity, reverse=True)
-   # sorted = sort(sorted, key=lamda x: x.similarity, reverse=false)
-      #sorted['similarity']
+    self.sorted = self.quickSort(self.sorted, "similarity")
+    self.sorted = self.reverse(self.sorted)

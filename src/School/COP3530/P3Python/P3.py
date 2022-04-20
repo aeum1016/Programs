@@ -1,6 +1,5 @@
 from gettext import find
 import json
-import time
 import Graph
 
 all = Graph.graph("all")
@@ -62,15 +61,21 @@ dataset.similarity(keywords)
 
 results = dataset.sorted[0:10]
 
+print("0. Sort by Relatedness")
 print("1. Sort by Popularity")
 print("2. Sort by Rating")
 algorithm = input("How do you want your results sorted? ")
 findSimilar = 0
 while(findSimilar != -1):
-  if (algorithm == '1'):
-      results.sort(key=lambda x: x.popularity, reverse=False)
+  for i in range(48):
+    print()
+  if (algorithm == '0'):
+      pass
+  elif (algorithm == '1'):
+      results = dataset.quickSort(results, "popularity")
   elif (algorithm == '2'):
-      results.sort(key=lambda x: x.score, reverse=True)
+      results = dataset.quickSort(results, "score")
+      results = dataset.reverse(results)
   else:
       print("Not valid")
     
@@ -92,13 +97,3 @@ while(findSimilar != -1):
       dataset.djikstras(i)
       results = dataset.vertices[i].recommendations
       results = results[0:10]
-
-
-#endTime = time.asctime( time.localtime(time.time()) )
-#print(startTime)
-#print(loadTime)
-#print(addTime)
-#print(computeTime)
-#print(endTime)
-
-
