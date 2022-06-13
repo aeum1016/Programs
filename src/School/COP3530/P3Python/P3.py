@@ -25,7 +25,7 @@ for drama in dramaData:
 for anime in animeData:
   rank = anime["ranked"]
   if rank != None:
-    if rank <= 500:
+    if rank <= 200:
       genresRaw = anime["genre"]
       genresRaw = genresRaw[1:-1]
       genresRaw = genresRaw.split(", ")

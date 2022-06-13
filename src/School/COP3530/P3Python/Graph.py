@@ -78,20 +78,20 @@ class graph:
       position = 0 
 
       for i in range(1, len(array)): 
-          if getattr(array[i], attribute) <= getattr(array[0], attribute):
-                position += 1
-                temp = array[i]
-                array[i] = array[position]
-                array[position] = temp
+        if getattr(array[i], attribute) <= getattr(array[0], attribute):
+          position += 1
+          temp = array[i]
+          array[i] = array[position]
+          array[position] = temp
 
       temp = array[0]
       array[0] = array[position] 
       array[position] = temp 
-      
+
       left = self.quickSort(array[0:position], attribute) 
       right = self.quickSort(array[position+1:len(array)], attribute) 
 
-      array = left + [array[position]] + right 
+      array = left + [array[position]] + right
       
       return array
 
