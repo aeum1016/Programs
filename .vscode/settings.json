@@ -82,7 +82,12 @@
     "random": "cpp",
     "regex": "cpp",
     "stop_token": "cpp",
-    "thread": "cpp"
+    "thread": "cpp",
+    "any": "cpp",
+    "csignal": "cpp",
+    "filesystem": "cpp",
+    "span": "cpp",
+    "valarray": "cpp"
   },
   "editor.formatOnSave": true
 }
