@@ -18,6 +18,7 @@ public:
         {
           int mid = low + ((high - low) / 2);
           
+          if(nums1.at(mid) < nums2.at(num))
         }
       }
         

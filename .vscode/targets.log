@@ -7,9 +7,8 @@ make: *** No rule to make target 'all'.  Stop.
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
-# Make data base, printed on Sat Jun 25 14:21:50 2022
+# Make data base, printed on Sun Jun 26 15:07:35 2022
 
 # Variables
 
@@ -22,9 +21,11 @@ LC_ALL = C
 # environment
 USERPROFILE = C:\Users\aeum1
 # environment
+BTK_PVTHEAP_POOL:4284 = 1b400890
+# environment
 LOCALAPPDATA = C:\Users\aeum1\AppData\Local
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-5665a27c-e64a-453e-beae-f799165d4162-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-e0f95658-64f5-4331-bf26-9cef2e6c9f1c-sock
 # environment
 VSCODE_CWD = C:\Users\aeum1\AppData\Local\Programs\Microsoft VS Code
 # environment
@@ -37,10 +38,12 @@ PROCESSOR_LEVEL = 6
 PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\windows\system32\WindowsPowerShell\v1.0\Modules
 # default
 MAKE_COMMAND := C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe
+# environment
+BTK_PVTHEAP:4284 = 1b400000
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_20632_CDPNWFNCYHXISSVB
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_10448_RIGACJMADIXWGMSE
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
@@ -70,6 +73,8 @@ TMP = C:\Users\aeum1\AppData\Local\Temp
 # environment
 CONFIGSETROOT = C:\windows\ConfigSetRoot
 # environment
+BTK_PVTPGM_PGPOOLS:4284 = 1b4061c0
+# environment
 PROCESSOR_ARCHITEW6432 = AMD64
 # makefile
 MAKEFLAGS = pqrR
@@ -80,7 +85,9 @@ CURDIR := c:/Users/aeum1/Documents/Programming
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+MAIN_THREAD_ENV = 4284:10596
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # automatic
 *D = $(patsubst %/,%,$(patsubst %\,%,$(dir $*)))
 # environment
@@ -100,7 +107,7 @@ MAKEFILE_LIST :=
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 20632
+VSCODE_PID = 10448
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # automatic
@@ -110,6 +117,8 @@ VSCODE_PID = 20632
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
+BTK_PVTPGM_BLKQUEUES:4284 = 1b409f40
+# environment
 ONEDRIVECONSUMER = C:\Users\aeum1\OneDrive
 # default
 MAKE_HOST := Windows32
@@ -118,11 +127,15 @@ PROGRAMDATA = C:\ProgramData
 # default
 SHELL := C:/Program Files/Git/bin/sh.exe
 # environment
+BTK_PVTPGM_BUCKETS:4284 = 1b407fe0
+# environment
 HOMEPATH = \Users\aeum1
 # default
 MAKECMDGOALS := all
 # environment
 DRIVERDATA = C:\Windows\System32\Drivers\DriverData
+# environment
+BTK_LIBS_CTX:4284 = 1b4008f0
 # environment
 COMSPEC = C:\windows\system32\cmd.exe
 # environment
@@ -132,7 +145,10 @@ MAKELEVEL := 0
 # default
 MAKE = $(MAKE_COMMAND)
 # environment
-PATH = C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\bin;C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot\bin;C:\Python310\Scripts\;C:\Python310\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Users\aeum1\AppData\Local\Programs\Python\Python39;C:\Users\aeum1\AppData\Local\Programs\Python\Python39\Scripts;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\PuTTY\;C:\Users\aeum1\AppData\Roaming\Python\Python310\Scripts;;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Users\aeum1\AppData\Local\Microsoft\WindowsApps;C:\Users\aeum1\AppData\Local\Android\Sdk\platform-tools;C:\Users\aeum1\AppData\Local\GitHubDesktop\bin;C:\texlive\2018\bin\win32;C:\Users\aeum1\AppData\Local\Microsoft\WindowsApps;C:\Users\aeum1\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files (x86)\mingw-w64\i686-8.1.0-posix-dwarf-rt_v6-rev0\mingw32\bin;C:\Users\aeum1\AppData\Roaming\npm;C:\Program Files\heroku\bin
+PATH = C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\bin;C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot\bin;C:\Python310\Scripts\;C:\Python310\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Users\aeum1\AppData\Local\Programs\Python\Python39;C:\Users\aeum1\AppData\Local\Programs\Python\Python39\Scripts;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\PuTTY\;C:\Users\aeum1\AppData\Roaming\Python\Python310\Scripts;;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Users\aeum1\AppData\Local\Microsoft\WindowsApps;C:\Users\aeum1\AppData\Local\Android\Sdk\platform-tools;C:\Users\aeum1\AppData\Local\GitHubDesktop\bin;C:\texlive\2018\bin\win32;C:\Users\aeum1\AppData\Local\Microsoft\WindowsApps;C:\Users\aeum1\AppDa 
+ta\Local\Programs\Microsoft VS Code\bin;C:\Program Files (x86)\mingw-w64\i686-8.1.0-posix-dwarf-rt_v6-rev0\mingw32\bin;C:\Users\aeum1\AppData\Roaming\npm;C:\Program Files\heroku\bin
+# environment
+BTK_WIN_TRACEBACK:4284 = 7ffcfa974cf0
 # environment
 COMPUTERNAME = DESKTOP-F5K72NJ
 # default
@@ -159,7 +175,6 @@ COMMONPROGRAMFILES = C:\Program Files (x86)\Common Files
 PROGRAMW6432 = C:\Program Files
 # environment
 PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW
- 
 # automatic
 +F = $(notdir $+)
 # environment
@@ -215,7 +230,7 @@ PROCESSOR_REVISION = 8e0a
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
 # variable set hash-table stats:
-# Load=100/1024=10%, Rehash=0, Collisions=10/123=8%
+# Load=108/1024=11%, Rehash=0, Collisions=11/131=8%
 
 # Pattern-specific Variable Values
 
@@ -288,6 +303,6 @@ GNUmakefile:
 # strcache performance: lookups = 18 / hit rate = 16%
 # hash-table stats:
 # Load=15/8192=0%, Rehash=0, Collisions=0/18=0%
-# Finished Make data base on Sat Jun 25 14:21:50 2022
+# Finished Make data base on Sun Jun 26 15:07:35 2022
 
  
