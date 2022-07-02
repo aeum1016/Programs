@@ -1,0 +1,42 @@
+Ad Hoc
+
+Problems that cannot be classified anywhere else since each problem description and its solution are unique.
+Many are easy but not all.
+
+Approximately 1-2/10-13 problems are Ad Hoc.
+If easy, it's often the first problem solved.
+Most can be solved without using advanced data structures or algorithms.
+
+Categories
+  -Game (Card)
+    -One popular way to manage cards is to map each pair to an integer.
+  -Game (Chess)
+    -Many are combinatorial/counting
+  -Game (Others)
+    -Easier and harder (or more tedious)
+  -Real Life Problems
+    -Easier and harder (or more tedious)
+  -Time
+    -Dates, times, calendars.
+    -Python datetime module or Java GregorianCalendar are helpful
+  -Roman Numerals
+    -Rare to see
+    -Example: ch1/Uva11616.cpp
+  -Cipher
+    -Can be split into 3, Easy, Medium, and Hard.
+  -Input Parsing (Iterative)
+    -Range from simpler ones that can be dealt with an iterative parser
+      to more complex ones involving grammars that require recursive decent parsers, 
+      C++ regex, Java String/Pattern, Python RegEx, or Ocaml regular expressions
+  -Output Formatting
+    -Often the coding warm up or the time-waster problem.
+    -Simply need to be done quickly
+  -Time Waster problems
+    -Determines the team with the most efficient coder
+    -Complicated and requires accuracy
+  -Others
+    -Linear data structures - 2.2
+    -Mathematical computation - B2
+    -Harder string processing - B2
+    -Basic geometry - B2
+    Rate - Ex. Tower of Hanoi - C9
