@@ -1,0 +1,21 @@
+{
+  "files.associations": {
+    "cstdlib": "cpp",
+    "vector": "cpp",
+    "iostream": "cpp",
+    "string": "cpp",
+    "xhash": "cpp",
+    "unordered_map": "cpp",
+    "xstring": "cpp",
+    "algorithm": "cpp",
+    "ostream": "cpp",
+    "cmath": "cpp",
+    "xiosbase": "cpp",
+    "map": "cpp",
+    "type_traits": "cpp",
+    "initializer_list": "cpp",
+    "list": "cpp",
+    "xtree": "cpp",
+    "xutility": "cpp"
+  }
+}
