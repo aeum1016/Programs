@@ -17,6 +17,8 @@
     "list": "cpp",
     "xtree": "cpp",
     "xutility": "cpp",
-    "utility": "cpp"
+    "utility": "cpp",
+    "iosfwd": "cpp",
+    "iomanip": "cpp"
   }
 }
