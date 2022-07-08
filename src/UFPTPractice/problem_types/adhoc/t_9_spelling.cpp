@@ -1,8 +1,8 @@
-#include <stdio.h>
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include <iostream>
+#include <stdio.h>
 
 using namespace std;
 
@@ -37,23 +37,27 @@ int main()
   mapping.emplace('z', "9999");
   mapping.emplace(' ', "0");
 
-  int q; scanf("%d\n", &q);
+  int q;
+  string queries;
+  getline(cin, queries, '\n');
+  q = stoi(queries);
   int i = 0;
-  while(i < q)
+  string str;
+
+  while(q--)
   {
     i++;
-    string str;
-    getline(cin, str, '\n');
     string out = "";
+    getline(cin, str, '\n');
     for(char c : str)
     {
       if(out.size() > 0 && out.at(out.size()-1) == mapping.at(c).at(0))
       {
-        out+=" ";
+        out.append(" ");
       }
-      out+=mapping.at(c);
+      out.append(mapping.at(c));
     }
-    cout << "Case #" << i << ": " << out << endl;
+    cout << "Case #" << i << ": " << out << "\n";
   }
   return 0;
 }
