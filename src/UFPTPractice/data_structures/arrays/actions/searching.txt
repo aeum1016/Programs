@@ -1,0 +1,27 @@
+Method:
+  Linear search
+
+Run Time:
+  O(n)
+
+Explanation:
+  Consider every item from index 0 to n-1
+
+Method:
+  Binary search
+
+Run Time:
+  O(log(n))
+
+Explanation:
+  Use lower_bound, upper_bound, or binary_search in C++ algorithms
+  Sort first if unsorted
+
+Method:
+  Hashing
+
+Run Time:
+  O(1)
+
+Explanation:
+  Useful when fast access is necessary and order is not

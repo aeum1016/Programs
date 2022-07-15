@@ -1,0 +1,16 @@
+When is it used:
+  Used if size of the sequence of items is unknown at compile time
+
+Implementation:
+  C++ vector
+  Initialize the size with the estimated maximum size for better performance
+
+Operations:
+  push_back
+  at
+  []
+  assign
+  clear
+  erase
+  iterators
+  lexicographical comparison of values

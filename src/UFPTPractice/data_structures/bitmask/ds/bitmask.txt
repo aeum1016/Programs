@@ -1,0 +1,43 @@
+When is it used:
+  Used as a lightweight, small set of booleans
+  Very lightweight and efficient, using an integer
+  Important for dynamic programming and recursion
+
+Implementation:
+  Use a 32-bit signed integer as a direct representation of bits
+
+Operations:
+  Representation:
+    Ex. S = 34 (base 10) = 100010, or the set {1, 5}
+
+  Multiplication/Division:
+    To multiply by two, x << 1 == x * 2
+    To divide by two, x >> 1 == x / 2 (automatically truncates)
+
+  Set On:
+    S |= 1 << j to turn on the j-th bit (0-based indexing)
+
+  Check if On:
+    S & (1<<j) to check if j-th bit is on
+
+  Clear/Turn off:
+    S &= ~(1<<j)
+
+  To Toggle:
+    S ^= (1<<j)
+
+  Least Significant Bit:
+    T = ((S) & -(S)), gives 2^LSB
+
+  Turn on all bits in set of size n:
+    S = (1<<n)-1
+
+  Enumerate all proper bitmasks of a bitmask:
+    eg. 10010 -> {10010, 10000, 00010}
+    for(int subset = mask; subset; subset = (mask & (subset-1)))
+      cout << subset << "\n";
+
+  Built in:
+    __builtin_popcount: count number of on bits
+    __builtin_ctz: count trailing zeroes
+    add -l for long version

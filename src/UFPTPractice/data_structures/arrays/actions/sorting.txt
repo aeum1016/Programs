@@ -1,0 +1,30 @@
+Commonly used:
+  Merge, Quick, Heap
+
+Run Time:
+  O(nlog(n))
+
+C++ Functions:
+  sort, stable_sort, partial_sort
+  Specify sorting function using a lambda
+
+  ex. custom comparison function
+    bool cmp(const int a, const int b) {
+      return a > b;
+    }
+
+    sort(A.begin(), A.end(), cmp);
+
+  ex. lambda
+    sort(A.begin(), A.end(), [](const int a, const int b) {
+      return a > b;
+    });
+
+  ex. reverse iterator
+    sort(A.rbegin(), A.rend());
+
+  Special purpose sorting algorithms:
+    Counting/Bucket/Radix
+
+  Run Time:
+    O(n)

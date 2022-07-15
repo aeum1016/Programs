@@ -1,0 +1,50 @@
+Inversion index
+
+Description:
+  Given a list, count the minimum number of bubble sort swaps to make the list sorted
+
+O(n^2) solution:
+  Count swaps during the actual bubble swap process
+
+O(nlogn) solution:
+  Divide and Conquer
+  Modify merge sort
+  During merge, if you take the front of the right sorted sublist increment
+  a counter (inversion index) by the size of the left sublist.
+  Report the value at the end of the merge sort
+
+
+Sorting in O(n)
+
+Description:
+  Only possible in scenarios where the unsorted list has certain properties
+
+Counting Sort:
+  Time Complexity:
+    O(n + k)
+  
+  Use Case:
+    If an array A contains elements in a small range [L..R], counting sort is possible
+
+  Notes:
+    Stable sorting algorithm
+
+  Description:
+    1. Prepare a frequency array with size k = R-L+1 and initialize with 0s
+    2. One pass, updating freqencies of items
+    3. Compute the prefix sums of each ie f[i] = f[i-1] + f[i]
+    4. Now going backwards from n-1 to 0, place A[i] at f[A[i]-L]-1 and then decrement F[A[i]-L] by 1
+
+Radix Sort:
+  Time Complexity:
+    O(d x (n+k))
+  
+  Use Case:
+    Array contains n non-negative integers of relatively wide range [L..R], but small number of digits
+    Very rare, because implementation is quite long
+  
+  Description:
+    Simple idea - First make all integers have d digits by appending 0s
+    Then sort digit by digit from the least significant digit
+    Must use a stable sort algorithm as the sub-routine, such as the Counting Sort
+    Ends up being d passes, of n+k counting sorts

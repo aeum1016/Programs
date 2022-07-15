@@ -1,0 +1,8 @@
+When is it used:
+  Usually avoided in CP
+
+Implementation:
+  C++ list or forward_list
+
+Notes:
+  not common at all

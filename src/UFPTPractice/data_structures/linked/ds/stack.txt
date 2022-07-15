@@ -1,0 +1,14 @@
+When is it used:
+  LIFO, eg. bracket matching
+
+Implementation:
+  C++ stack
+
+Notes:
+  Most operations O(1)
+
+Operations:
+  push
+  pop
+  top 
+  empty

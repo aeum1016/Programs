@@ -1,0 +1,21 @@
+When is it used:
+  Most commonly used.
+  Collection of homogenous sequential data.
+
+Implementation:
+  Implemented with the array size slightly larger than the maximum input size.
+
+Notes:
+  1D and 2D are common, 3D is rarer.
+
+Operations:
+  1D Operations:
+    Accessing
+    Sorting
+    Linear scan
+    Binary search on sorted
+
+  2D Operations:
+    Rotating
+    Transposing
+    Mirroring

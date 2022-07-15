@@ -1,0 +1,18 @@
+When is it used:
+  FIFO, eg. bracket matching
+
+Implementation:
+  C++ queue
+
+Notes:
+  Most operations O(1)
+
+Operations:
+  enqueue
+  dequeue
+  c++:
+    push
+    pop
+    front
+    back 
+    empty 

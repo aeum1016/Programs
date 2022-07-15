@@ -1,0 +1,19 @@
+When is it used:
+  Double-ended Queue
+
+Implementation:
+  C++ deque
+  C++ implementation is not a doubly linked list and allows random access
+
+Notes:
+  C++ is Special
+  More flexible, slower vector
+
+Operations:
+  push_back
+  pop_front
+  push_front
+  pop_back
+  C++:
+    at
+    []

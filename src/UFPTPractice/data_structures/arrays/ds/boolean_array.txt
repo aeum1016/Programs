@@ -1,0 +1,15 @@
+When is it used:
+  Array that needs to only contain booleans
+
+Implementation:
+  C++ STL bitset
+
+Notes:
+  Few extra operations
+  Smaller array (<= 62), use bitmask instead 
+
+Operations:
+  reset
+  set 
+  [] operator
+  test

@@ -1,0 +1,17 @@
+When is it used:
+  Used to store massive numbers, eg. 40!
+
+Implementation:
+  Native support in Python, library in Java
+  Python is preferred
+
+Operations:
+  Java:
+    add
+    subtract
+    multiply
+    pow
+    divide
+    remainder
+    mod
+    divideAndRemainder
