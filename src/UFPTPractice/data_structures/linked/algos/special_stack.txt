@@ -1,0 +1,49 @@
+Bracket Matching
+
+Description:
+  Determine whether a set of braces is properly nested
+
+O(nlogn) solution:
+  Stack based
+  Read the brackets from left to right
+  When a close bracket is encountered, it needs to be matched with the latest open bracket
+  Push any open bracket
+  Check if a close bracket is the same as the top of the stack 
+  Pop if matched
+  If empty at the end, properly nested
+
+Variants:
+  Number of ways n pairs of parentheses can be correctly matched - Catalan formula
+  Optimal way to multiply matrices (Matrix chain multiplication) also involes bracketing - solved with DP
+
+
+Postfix Calculator
+
+Description:
+  Postfix is where the operator comes after the two operands
+  eg. 6 3 * = 18 and 2 6 3 * + = 20
+  More computationally efficient than infix (normal) expressions
+
+O(n):
+  Start with an empty stack
+  Read from left to right
+  When an operand is found, push to stack
+  If an operator is found, pop the top two elements on the stack
+  Apply the operator to the two elements and push the result to the stack
+  Return the top when done
+
+
+Infix to Postfix conversion
+
+Description:
+  Many compilers will convert Infix expressions to Postfix
+  Shunting-yard algorithm by Dijkstra
+
+O(n) Shunting-yard:
+  Start with an empty stack
+  Read from left to right
+  Output any operand
+  Push any open bracket to the stack
+  At a close bracket, output the topmost items of the stack until encountering an open bracket
+  At an operator, output the topmost items of the stack as long as they have equal or greater precedence, or until an open bracket
+  When done, Keep outputing and popping until stack is empty
