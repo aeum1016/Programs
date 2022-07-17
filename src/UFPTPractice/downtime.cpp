@@ -12,22 +12,20 @@ int main()
 
   // start with one server, vector of times of start
   queue<int> orders;
+  int maxServers = 0;
 
   while(q--)
   {
     int time;
     scanf("%d", &time);
 
-    if(orders.front() <= time - 1000)
+    while(orders.size() && orders.front() <= time - 1000)
     {
       orders.pop();
-      orders.push(time);
     }
-    else
-    {
-      orders.push(time);
-    }
+    orders.push(time);
+    maxServers = fmax(maxServers, ceil(((double)orders.size())/s));
   }
-  printf("%d", (orders.size()+1)/2);
+  printf("%d", maxServers);
   return 0;
 }
