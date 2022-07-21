@@ -1,5 +1,21 @@
 {
   "files.associations": {
-    "xstring": "cpp"
+    "xstring": "cpp",
+    "algorithm": "cpp",
+    "ostream": "cpp",
+    "iostream": "cpp",
+    "cmath": "cpp",
+    "utility": "cpp",
+    "vector": "cpp",
+    "deque": "cpp",
+    "initializer_list": "cpp",
+    "list": "cpp",
+    "xhash": "cpp",
+    "xtree": "cpp",
+    "xutility": "cpp",
+    "queue": "cpp",
+    "stack": "cpp",
+    "type_traits": "cpp",
+    "iomanip": "cpp"
   }
 }
