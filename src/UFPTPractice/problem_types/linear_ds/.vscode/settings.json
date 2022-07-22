@@ -18,6 +18,8 @@
     "type_traits": "cpp",
     "iomanip": "cpp",
     "map": "cpp",
-    "unordered_map": "cpp"
+    "unordered_map": "cpp",
+    "limits": "cpp",
+    "string": "cpp"
   }
 }
