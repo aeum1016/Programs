@@ -1,0 +1,31 @@
+When is it used:
+  Very fast, O(1) insertion, search/retrieval/update, or removal;
+
+Implementation:
+  Requires a good Hash Function and Collision resolution mechanism.
+  CRM - Open Addressing (eg. double hashing), Closed Addressing (eg. separate chaining)
+
+  C++ unordered_map (key -> satellite)
+  C++ unordered_set (key)
+
+Notes:
+  Can preset initial size to 2xM to reduce re-hashing
+  Use the alternative constructor for this.
+
+Operations:
+  Set
+    insert
+    find
+    count
+    erase
+    clear
+  Map 
+    Set operations
+    []
+
+
+Direct Addressing table
+  When is it used:
+    Simpler form of a hash table
+    A hash table where the keys themselves are the indices
+    Can be used if keys are unique and can be assigned values.

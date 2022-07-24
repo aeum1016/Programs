@@ -1,0 +1,35 @@
+When is it used:
+  Oranize in a tree structure
+  Items to the left are smaller and items to the right are greater.
+
+Implementation:
+  C++ map/set - usually a RB tree, can also be an AVL tree 
+  
+Operations:
+  logn
+    search(key)
+    insert
+    findMin/findMax
+    sucessor/predecessor
+    remove
+  Range operations - lower_bound/upper_bound
+  Sorted iterator
+
+  Tree Sort
+    Store sequential input into a set or map for it to be auto-sorted
+    then output
+    Overkill unless there are a lot of operations
+    Slower than using a vector and sorting when done
+
+  Use as Priority Queue
+    Enqueue in logn 
+    min item using begin()
+    max item using rbegin()
+    Powerful dynamic Min-Max Priority Queue
+    Can implement update and remove in logn time
+    remove+insert & remove
+  
+  Order Statistics Tree
+    Add more information at each vertex to support rank and select operations
+    rank searches for a key and outputs its rank
+    select retrieves the key with a given rank

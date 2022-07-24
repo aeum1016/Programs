@@ -1,0 +1,26 @@
+When is it used:
+  Organize data into a tree.
+  Every parent is larger than or equal to its children
+  Need to quickly get the max element.
+
+Implementation:
+  Most often a Binary (Max) Heap.
+  Must be complete.
+  Often 1-indexed aarray of size n+1
+  Navigate from parent to child and vice versa, using i<<1 and (i<<1)+1 or i>>1.
+
+  C++ priority_queue (Max Heap)
+      priority_queue <int, vector<int>, greater<int>> (Min Heap)
+      or just negative everything.
+
+Notes:
+  Insert and takeMax is O(log(n)) due to heapify.
+  Important for Prim's and Kruskal's for Minimum Spanning tree
+  And for Dijkstra's for Single-Source Shortest Paths
+  And A* Search
+  Used in C++ partial_sort O(nlogk) or heap_sort O(nlogn)
+
+Operations:
+  push
+  pop
+  empty
