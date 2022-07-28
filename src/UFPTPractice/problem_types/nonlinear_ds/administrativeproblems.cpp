@@ -9,10 +9,19 @@ int main()
 
   int tc; cin >> tc;
 
+  vector<string> events;
+  map<string, int> ledger;
+  unordered_map<string, string> carUse;
+  unordered_map<string, vector<int>> cars;
+
   while(tc--)
   {
+    events.clear();
+    ledger.clear();
+    carUse.clear();
+    cars.clear();
+
     int nCars, nEvents; cin >> nCars >> nEvents;
-    unordered_map<string, vector<int>> cars;
     while(nCars--)
     {
       string n;
@@ -20,107 +29,61 @@ int main()
       cin >> n >> p >> c >> m;
       cars.emplace(n, vector<int>({p, c, m})); 
     }
-    priority_queue<pair<int, string>> events;
 
     while(nEvents--)
     {
-      int t;
-      string event;
-      cin >> t;
-      getline(cin, event);
-      events.push({-t, event});
-    }
+      int t; cin >> t;
+      string name; cin >> name;
+      char action; cin >> action;
+      string x; cin >> x;
 
-    map<string, int> ledger;
-    unordered_map<string, string> carUse;
+      if(carUse.find(name) == carUse.end())
+      {
+        carUse.emplace(name, "");
+        ledger.emplace(name, 0);
+      }
 
-    while(!events.empty())
-    {
-      string event = events.top().second;
-      events.pop();
-      stringstream ss(event);
-      string name; ss >> name;
-      char action; ss >> action;
+      if(ledger.at(name) == -1) continue;
+
       if(action == 'p')
       {
-        string car; ss >> car;
-        if(carUse.find(name) != carUse.end())
+        string car = x;
+        if(carUse.at(name) != "")
         {
-          if(ledger.find(name) != ledger.end())
-          {
-            ledger[name] = -1;
-          }
-          else
-          {
-            ledger.emplace(name, -1);
-          }
+          ledger[name] = -1;
         }
         else
         {
-          int cost = cars[car].at(1);
-          if(!(ledger.find(name) != ledger.end() && ledger[name] == -1))
-          {
-            if(ledger.find(name) != ledger.end()) ledger[name]+=cost;
-            else ledger.emplace(name, cost);
-          }
-          carUse.emplace(name, car);
+          carUse[name] = car;
+          ledger[name] += cars[car].at(1);
         }
       }
       else if(action == 'r')
       {
-        int miles; ss >> miles;
-        if(carUse.find(name) == carUse.end())
+        int km = stoi(x);
+        if(carUse[name] == "")
         {
-          if(ledger.find(name) != ledger.end())
-          {
-            ledger[name] = -1;
-          }
-          else
-          {
-            ledger.emplace(name, -1);
-          }
+          ledger[name] = -1;
         }
         else
         {
-          string car = carUse[name];
-          if(cars.find(car) != cars.end())
-          {
-            int costPerMile = cars[car].at(2);
-            int cost = miles * costPerMile;
-            if(!(ledger.find(name) != ledger.end() && ledger[name] == -1))
-            {
-              ledger[name]+=cost;
-            }
-
-            carUse.erase(name);
-          }
+          ledger[name] += km * cars[carUse[name]].at(2);
+          carUse[name] = "";
         }
       }
-      else
+      else if(action == 'a')
       {
-        int damage; ss >> damage;
-        if(carUse.find(name) == carUse.end())
+        int damage = stoi(x);
+        if(carUse[name] == "")
         {
-          if(ledger.find(name) != ledger.end())
-          {
-            ledger[name] = -1;
-          }
-          else
-          {
-            ledger.emplace(name, -1);
-          }
+          ledger[name] = -1;
         }
         else
         {
           string car = carUse[name];
           if(cars.find(car) != cars.end())
           {
-            int carPrice = cars[car].at(0);
-            int cost = (int) ceil(carPrice * (damage/100.0));
-            if(!(ledger.find(name) != ledger.end() && ledger[name] == -1))
-            {
-              ledger[name]+=cost;
-            }
+            ledger[name] += (int) ceil(cars[car][0] * damage / 100.0);
           }
         }
       }
@@ -129,7 +92,7 @@ int main()
     for(auto spy : ledger)
     {
       cout << spy.first << " ";
-      if(spy.second == -1 || carUse.find(spy.first) != carUse.end()) cout << "INCONSISTENT\n";
+      if(spy.second == -1 || carUse[spy.first] != "") cout << "INCONSISTENT\n";
       else cout << spy.second << endl;
     }
   }
