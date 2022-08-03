@@ -1,0 +1,77 @@
+When is it used:
+  Used in a variety of forms and ways in cp
+
+Implementation:
+  Basic form - G = (V, E), a set of vertices and edges
+  3 Basic implementations
+    - AM (Adjacency matrix)
+    - AL (Adjacency list)
+    - EL (Edge list)
+
+AM
+  Use:
+    Good when connectivity between two vertices in a small dense graph is required
+    Not feasible if V > ~5000
+
+  Implementation:
+    2D Array, native support in C++ STL [][]
+
+  Notes:
+    Usually V is known, so if V is small enough, a static 2D array can be used to build
+    a connectivity table.
+    Cannot be used for a weighted multigraph (multiple edges between the same vertices)
+    For a simple graph, the main diagonal is 0s
+    Counting neighbors is O(V), kinda slow
+
+AL
+  Use:
+    Should be the first choice
+  Implementation:
+    C++ Vector of Vector of Pair of Ints (vector<vector<pair<int, int>>>)
+    Pair holds (neighbor, weight)
+    Space: O(V+E)
+  Notes:
+    Smaller space than matrix as E is usually not near its max of V^2
+    Can be used for multigraphs
+    Enumerate neighbors easily in O(k) time if k is the number of neighbors
+
+EL
+  Use:
+    Useful for Kruskals for MST
+  Implementation:
+    C++ Vector of tuple of ints
+    Store all edges, usually sorted
+    Space: O(E)
+
+String Vertices
+  2 Ideas
+    unordered_map to map string labels to ints
+
+    AL in the form unordered_map<string, vector<string>>, worse performance, faster to type
+
+Special Graphs
+  Can use simpler implementations
+  1. Unweighted rooted tree
+    Like Union-Find Disjoint Sets or DFS/BFS/MST/SSSP spanning tree
+    Vertex i holds just its parent
+    Single array p of size V
+  2. Complete Binary Tree with weights
+    Array of size V+1 from top level to lowest level, from leftmost to rightmost of each level
+  3. Very small unweighted graph (V = 1 -> 62)
+    Adjacency Matrix with bitmasks (long long) as each row
+    1D array
+  4. Unweighted Graph (V <= 200K) is dense (E = (V * (V-1)/2) - L; L <= 10K)
+    May be better to store informatioon of edges not in the graph in a hashtable called NOTEXIST
+
+Implicit Graph
+  Many examples, some include
+  1. 2D grid map
+    eg. ..#.
+        ..#.
+        ....
+  2. Graph of chess knight movements
+    Edge if vertices differ by 2 horizontal spaces and 1 vertical space or vice versa
+  3. Graph of N vertices [1..N], edge between edges i and j if i+j is prime
+
+  Instead of storing in an explicit graph
+  Run the graph algorithm on the fly, ie determine next vertex/edge to be processed during the algorithm

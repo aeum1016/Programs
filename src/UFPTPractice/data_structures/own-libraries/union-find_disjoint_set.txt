@@ -1,0 +1,89 @@
+When is it used:
+  Model a collection of disjoint sets
+  O(1) capability to determine which set an object belongs in
+
+Implementation:
+  Initialize each vertex into a separate disjoint set, then enumerate the graph's edges
+  and union every two vertices/disjoint sets connected by an edge
+  Number of disjoint sets denotes the number of connected components
+
+Notes:
+  Not efficiently supported by C++ vector<set>
+  set_union in C++ STL is too slow, O(n), because
+  of shuffling with vector
+
+Basic Idea:
+  Choose a parent item to represent a set
+  Ensure that each set is presented by only one unique item
+  Create a conceptual tree structure where the disjoint sets form a forest of trees.
+  Each tree is a set, root is the repsentative item for the set
+
+  Store the index of the parent item and the upper bound of the height of the tree of each set
+  vi p and vi rank
+  p[i] stores the immediate parent of item i, if p[i] is the representative, p[i] = i
+  rank[i] yields the height of the tree rooted at item i, used to keep trees short
+
+Operations:
+  findSet(i) - O(1)
+    Calls findSet(p[i]) recursively until p[i] = i, then returns i
+    Path compression allows O(1)
+      Whenever the root is found, the parent of all items traversed
+      is set to point directly to the root
+    Don't need to update the height of the tree, as it is just a guide
+    for union
+    For n < 1M, the inverse Ackermann function can be treated as O(1)
+
+  isSameSet(i, j) - O(1)
+    Call findSet(i) and findSet(j) and return whether they are the same
+
+  unionSet(i, j) - O(1)
+    Set the parent of one representative item of a disjoint set to be the representive item of the other set
+    To make the resulitng tree as short as possible, 
+      if rank[x] < rank[y], y becomes the parent of both
+      if rank[x] == rank[y], choose arbitrarily and increase the rank by 1
+
+  numDisjointSets()
+  sizeOfSet(i)
+
+Code:
+  
+typedef vector<int> vi;
+
+class UnionFind {
+private:
+  vi p, rank, setSize;
+  int numSets;
+public:
+  UnionFind(int N)
+  {
+    p.assign(N, 0); for(int i = 0; i < N; ++i) p[i] = i;
+    rank.assign(N, 0);
+    setSize.assign(N, 1);
+    numSets = N;
+  }
+
+  int findSet(int i){
+    return (p[i] == i) ? i : (p[i] = findSet(p[i]));
+  }
+  bool isSameSet(int i, int j){
+    return findSet(i) == findSet(j);
+  }
+  int numDisjointSets(){
+    return numSets;
+  }
+  int sizeOfSet(int i)
+  {
+    return setSize[findSet(i)];
+  }
+
+  void unionSet(int i, int j)
+  {
+    if(isSameSet(i, j)) return;
+    int x = findSet(i), y = findSet(j);
+    if(rank[x] > rank[y]) swap(x, y);
+    p[x] = y;
+    if(rank[x] == rank[y]) ++rank[y];
+    setSize[y] += setSize[x];
+    --numSets;
+  }
+}
