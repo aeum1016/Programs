@@ -1,0 +1,172 @@
+AKA Binary Indexed Tree
+
+When is it used:
+  Useful as a dynamic cumulative frequency table
+  Can be used as a solution to the Range Sum Query problem
+  If frequencies are static, then cf can be found with an O(m) loop where m is the range of values
+  Very easy implementation and efficient operations
+
+Implementation:
+  Using a vector for size flexibility
+  Indexed by the bits of its integer keys, keys within range [1..m]
+  The item at index i is responsible for the range [(i-LSOne(i)+1)..i]
+    so ft[i] stores the cf of items {i-LSOne(i)+1, i-LSOne(i)+2, ..., i}
+
+  Basic Implementation:
+
+  #define LSOne(S) ((S) & (-S))
+
+  typedef vector<int> vi;
+
+  class FenwickTree {
+  private:
+    vi ft;
+  public:
+    FenwickTree(int m) {ft.assign(m+1, 0)}
+    int rsq(int j) {
+      int sum = 0;
+      for(; j; j -= LSOne(j))
+        sum += ft[j];
+      return sum;
+    }
+    int rsq(int i, int j) {return rsq(j) - rsq(i-1);}
+    void update(int i, int v) {
+      for(; i < (int)ft.size(); i += LSOne(i))
+        ft[i] += v;
+    }
+  }
+
+
+  Full Implementation
+
+  #include <bits/stdc++.h>
+  using namespace std;
+
+  #define LSOne((S) & (-S))
+
+  typedef lon long ll;
+  typedef vector<ll> vll;
+  typedef vector<int> vi;
+
+  class FenwickTree {
+  private:
+    vll ft;
+  public:
+    FenwickTree(int m) {ft.assign(m+1, 0);}
+
+    void build(const vll &f) {
+      int m = (int)f.size()-1;
+      ft.assign(m+1, 0);
+      for(int i = 1; i <= m; ++i){
+        ft[i] += f[i];
+        if(i+LSOne(i) <= m)
+          ft[i+LSOne(i)] += ft[i];
+      }
+    }
+
+    FenwickTree(const vll &f) {build(f);}
+
+    FenwickTree(int m, const vi &s) {
+      vll f(m+1, 0);
+      for(int i = 0; i < (int)s.size(); ++i)
+        ++f[s[i]];
+      build(f);
+    }
+
+    ll rsq(int j) {
+      ll sum = 0;
+      for(; j; j-= LSOne(j))
+        sum += ft[j];
+      return sum;
+    }
+
+    ll rsq(int i, int j) {rsq(j) - rsq(i-1);}
+
+    void update(int i, ll v) {
+      for(; i < (int)ft.size(); i += LSOne(i))
+        ft[i] += v;
+    }
+
+    int select(ll k) {
+      int lo = 1, hi = ft.size()-1;
+      for(int i = 0; i < 30; ++i) {
+        int mid = (lo+hi)/2;
+        (rsq(1, mid) < k) ? lo = mid : hi = mid;
+      }
+      return hi;
+    }
+  };
+
+  class RUPQ {
+  private:
+    FenwickTree ft;
+  public:
+    RUPQ(int m) : ft(FenwickTree(m)) {}
+    void range_update(int ui, int uj, int v) {
+      ft.update(ui, v);
+      ft.update(uj+1, -v);
+    }
+    ll point_query(int i) {return ft.rsq(i);}
+  };
+
+  class RURQ {
+  private:
+    RUPQ rupq;
+    FenwickTree purq;
+  public:
+    RURQ(int m) : rupq(RUPQ(m)), purq(FenwickTree(m)) {};
+  }
+
+Notes:
+  Will be using LSOne(S) = ((S) & (-S))
+
+Operations:
+  Basic ------------------------------------------------------
+  Point Update Range Query
+
+  Range Sum Query O(log(m))
+    rsq(j)
+      ft[j] + ft[j'] + ...; where j' = j - LSOne(j)
+    rsq(i, j)
+      rsq(j)-rsq(i-1)
+
+  update(i, v) O(logm)
+    Update the value at index i by adding v to its value
+    Must update the value at i, i', i'', etc
+    Where i' = i + LSOne(i) until i > m
+
+  ------------------------------------------------------------
+
+  build(frequency-array f) O(n+m)
+    One linear pass to create array of frequencies
+    Call update(i, f[i]) for all i in range [i..m] for O(n+mlogm)
+    set ft[i] += f[i], then check parent, then update parent for O(n+m)
+
+  select(rank k) O(log^2m)
+    Find the smallest index/key i so that the cf is greater than or equal to k
+    rank(value) is just rsq
+    As the frequencies are sorted, use binary search for O(logm x logm)
+
+  Range Update Point Query Fenwick Tree
+  
+  range_update(ui, uj, v) O(logm)
+    call two O(logm) PURQ point updates update(ui, v) and update(uj+1, -v)
+
+  point_query(i) O(logm)
+    Call rsq(i)
+
+  Range Update Range Query
+    Keep 2 Fenwick trees, one RUPQ and one PURQ
+    range_update(ui, uj, v) O(logm)
+      Use the rupq.range_update(ui, uj, v)
+      Assume that every index before j has change equal to the value of j and fix by cancelling
+      Set rsq(1, j) = rupq.point_query(j)*j - cancellation_factor
+      3 cases
+        1. j < ui, rsq(1, j) is unaffected
+            cancellation factor is 0
+        2. ui < j < uj
+            rsq(1, j) is changed by value v * (j - ui + 1)
+            Set cancellation_factor = purq.update(ui, v*(ui-1))
+        3. j > uj
+            then rsq(1, j) is changed by the constant v x (uj - ui + 1)
+            cancellation_factor = purq.update(uj+1, -v*uj)
