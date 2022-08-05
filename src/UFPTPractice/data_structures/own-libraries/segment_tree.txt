@@ -1,0 +1,121 @@
+When is it used:
+  Dynamic range query where the data is frequently updated and queried.
+  Minimum value in an array in range [i..j] - Range Minimum Query
+
+Implementation:
+  Another form of binary tree
+  Value at st[p] is the RMQ value of the segment associated with index p
+  Root represents the full segment [0, n-1] of array A.
+  For each segment [L, R] stored in index p, where L != R, split the segment into
+  [L, (L+R)/2] in 2p and [(L+R)/2+1, R] in 2p+1
+  Keep splitting until L=R
+
+  #include <bits/stdc++.h>
+  using namespace std;
+
+  typedef vector<int> vi;
+
+  class SegmentTree {
+  private:
+    int n;
+    vi A, st, lazy;
+
+    int l(int p) { return p<<1; }
+    int r(int p) { return (p<<1)+1; }
+
+    int conquer(int a, int b) {
+      if (a == -1) return b;
+      if (b == -1) return a;
+      return min(a, b);
+    }
+
+    void build(int p, int L, int R) {
+      if (L == R)
+        st[p] = A[L];
+      else {
+        int m = (L+r)/2;
+        build(l(p), L, m);
+        build(r(p), m+1, R);
+        st[p] = conquer(st[l(p)], st[r(p)]);
+      }
+    }
+
+    void propagate(int p, int L, int R) {
+      if (lazy[p] != -1) {
+        st[p] = lazy[p];
+        if(L != R)
+          lazy[l(p)] = lazy[r(p)] = lazy[p]
+        else
+          A[L] = lazy[p];
+        lazy[p] = -1;  
+      }
+    }
+
+    int RMQ(int p, int L, int R, int i, int j) {
+      propagate(p, L, R);
+      if (i > j) return -1;
+      if ((L >= i) && (R <= j)) return st[p];
+      int m = (L+R)/2;
+      return conquer(RMQ(l(p), L, m, i, min(m, j)),
+                      RMQ(r(p), m+1, R, max(i, m+1), j));
+    }
+
+    void update(int p, int L, int R, int i, int j, int val) {
+      propagate(p, l, R);
+      if(i > j) return -1;
+      if((L >= i) && (R <= j)) {
+        lazy[p] = val;
+        propagate(p, L, R);
+      }
+      else {
+        int m = (L+R)/2;
+        update(l(p), L, m, i, min(m, j), val);
+        update(r(p), m+1, R, max(i, m+1), j, val);
+        int lsubtree = (lazy[l(p)] != -1) ? lazy[l(p)] : st[l(p)];
+        int rsubtree = (lazy[r(p)] != -1) ? lazy[r(p)] : st[r(p)];
+        st[p] = (lsubtree < rsubtree) ? st[l(p)] : st[r(p)];
+      }
+    }
+
+  public:
+    SegmentTree(int sz) : n(sz), st(4*n), lazy(4*n, -1) {}
+
+    SegmentTree(const vi &initialA) : SegmentTree((int)initialA.size()) {
+      A = initialA;
+      build(1, 0, n-1);
+    }
+
+    void update(int i, int j, int val) { update(1, 0, n-1, i, j, val); }
+
+    int RMQ(int i, int j) { return RMQ(1, 0, n-1, i, j); }
+  }
+
+Notes:
+  If data is static, use the Sparse Table data structure with O(nlogn) DP processing and O(1) per request
+
+Operations:
+  Build from array O(n)
+    Recursive function
+
+    When L=R, st[p] = A[L]
+    Compare the minimum values of the left and right sub-segments and update st[p] to the smaller value
+
+    sub-routine void build(int p, int L, int R)
+      creates up to O(1 + 2 + 4 + ... 2^log2n) = O(2n) = O(n)
+      formula 2^ceil(log2n) and set st to have size 2x2^ceil(log2n)
+
+  RMQ(i, j) O(logn)
+    RMQ(i, i) is trivial, just return A[i]
+    Define a private function int RMQ(int p, int L, int R, int i, int j)
+    Wrapper RMQ(i, j) starts with RMQ(1, 0, n-1, i, j);
+    At each point, if L and R are inside i and j, return the value
+    If not, check the subtrees that are inside the range i j
+    Return the min of all checked trees
+
+  update(i, j, v) O(logn)
+    If i == j simply update along the leaf-to-root path in O(logn)
+
+    If i != j
+    Lazy Propagation, visits at most log(n) vertices6
+    Only change what would be found during the RMQ algorithm, but set a lazy flag
+    If a value with a lazy flag is changed, update and propagate the lazy flag down to it's children

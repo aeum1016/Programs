@@ -4,6 +4,7 @@
     "xutility": "cpp",
     "initializer_list": "cpp",
     "type_traits": "cpp",
-    "xstddef": "cpp"
+    "xstddef": "cpp",
+    "cmath": "cpp"
   }
 }
