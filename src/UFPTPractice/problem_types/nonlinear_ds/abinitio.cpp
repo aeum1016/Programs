@@ -68,48 +68,31 @@ int main()
   }
   cout << g.size() << endl;
   int count = 0;
-  long long hash = 0;
   for(int i = 0; i < g.size(); i++)
   {
     count = 0;
-    hash = 0;
+    long long hash = 0, multiplier = 1;
     for(int j = 0; j < g.size(); j++)
     {
       if(i == j) continue;
       if(outEdges)
       {
         if(g[i][j] == edgeIsOne) {
-          if(count == 0) {
-            hash = j % ((long long) (1E9)+7);
-          }
-          else {
-            long long a = 1;
-            for(int k = 0; k < count; k++)
-            {
-              a = (a*7) % ((long long) (1E9)+7);
-            }
-            a = (a*j) % ((long long) (1E9)+7);
-            hash = (hash + a) % ((long long) (1E9)+7);
-          }
           count++;
+          hash += multiplier*j;
+          hash %= (long long) ((1E9)+7);
+          multiplier *= 7;
+          multiplier %= (long long) ((1E9)+7);
         }
       }
       else
       {
         if(g[j][i] == edgeIsOne) {
-          if(count == 0) {
-            hash = j % ((long long) (1E9)+7);
-          }
-          else {
-            long long a = 1;
-            for(int k = 0; k < count; k++)
-            {
-              a = (a*7) % ((long long) (1E9)+7);
-            }
-            a = (a*j) % ((long long) (1E9)+7);
-            hash = (hash + a) % ((long long) (1E9)+7);
-          }
           count++;
+          hash += multiplier*j;
+          hash %= (long long) ((1E9)+7);
+          multiplier *= 7;
+          multiplier %= (long long) ((1E9)+7);
         }
       }
     }
