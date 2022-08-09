@@ -22,7 +22,7 @@ Implementation:
   private:
     vi ft;
   public:
-    FenwickTree(int m) {ft.assign(m+1, 0)}
+    FenwickTree(int m) {ft.assign(m+1, 0);}
     int rsq(int j) {
       int sum = 0;
       for(; j; j -= LSOne(j))
