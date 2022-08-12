@@ -1,0 +1,48 @@
+Iterative
+
+Example: Two Nested Loops
+	PS: Find and display all pairs of 5-digit numbers that collectively use the digits 0
+	through 9 once each, such that the first number divided by the second is equal to an
+	integer N.
+
+	abcde/fghij = N
+	fghij ranges from 12345 to 98765/N for approximately 50k combination
+	abcde = fghij * N, then check that all 10 digits are used
+
+	So 50k * 10 = 500k operations
+
+Example: Many Nested Loops
+	PS: Given 6 < k < 13 sorted integers, enumerate all posible subsets of size 6 of these
+	integers in sorted order
+
+	Use 6 nested loops. Even at the largest, k = 12, only 12C6 = 924 lines of output.
+
+Example: Loops+Pruning
+	PS: Given 3 integers A, B, and C. Find 3 other distinct integers such that 
+	x+y+z=A, x*y*z=B, and x^2+y^2+z^2=C. 
+
+	Using the final equation, x,y,z all have bound -100 to 100.
+	Also assuming that x is the smallest of the 3, x*x*x <= x*y*z = B
+	So x <= B^1/3, abs(x) <= 22
+	So the new range of x is -22 to 22
+
+Example: Permutations
+	PS: There are 0 < n <= 8 movie-goers
+	They will sit in the front row in n consecutive open seats.
+	There are 0 <= m <= 20 seating constraints among them, where
+	each constraint specifies two movie goers a and b that must
+	be at most or least c seats apart. How many seating arrangements are there
+
+	Must explore all permutations
+	O(n!*m) 'filtering' solution
+	Set a counter to 0, then try all n! permutations
+	Increase counter if current permutation satisfies all m constraints
+	As n is 8, and m is 20, maximum operations is 8!*20 = 806400
+
+	algorithm library - next_permutation
+
+	int i, n = 8, p[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+	do {
+		// test each permutation 'p' in O(m)
+	}
+	while (next_permutation(p, p+n));

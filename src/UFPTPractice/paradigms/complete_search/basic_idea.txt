@@ -1,0 +1,7 @@
+Brute Force / recursive backtracking
+
+Traversing the entire search space to obtain the required solution. 
+Should be developed when no other solution is available or when a better solution is overkill
+
+Complete search can also be used on smaller inputs to determine a pattern in output
+and to verify the output of a more efficient solution
