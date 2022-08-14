@@ -46,3 +46,51 @@ Example: Permutations
 		// test each permutation 'p' in O(m)
 	}
 	while (next_permutation(p, p+n));
+
+Example: Subsets
+	PS: Given a list l containing 1 <= n <= 20 integers, is there
+	a subset of list l that sums to another given integer X
+
+	Try all 2^n possible subsets of integers, sum the selected integers
+	for each subset in O(n) and see if the sum of the selected integers
+	equals to X. Time complexity is O(n*2^n). Maximum 20*2^20 = 21M
+	Large but viable
+
+	Use bitmask technique for fast operations
+	for(i = 0; i < (1<<n); ++i) {
+		int sum = 0;
+		for(int j = 0; j < n; ++j) {
+			if(i & (1<<j)) sum += l[j];
+		}
+		if (sum == X) break;
+	}
+
+	Speed up around 2x using LSOne(S)
+	for(i = 0; i < (1<<n); ++i) {
+		int sum = 0;
+		int mask = i;
+		while(mask) {
+			int two_pow_j = LSOne(mask);
+			int j = __builtin_ctz(two_pow_j);
+			sum += l[j];
+			mask -= two_pow_j;
+		}
+		if (sum == X) break;
+	}
+
+Josephus Problem
+	Classic problem where initially there are n people numbered
+	from 1 to n in a circle. Starting from person 1, every k-1 people
+	are skipped and the k-th person is going to be executed and then 
+	removed from the circle
+
+	Smaller instances of this problem can be solved with iterative complete search
+	Help with a cyclic array
+
+	There is an elegant way for k=2 using binary representation of the number n.
+	If n = 1b1b2b3...bn, the nteh answer is b1b2b3..bn1
+	For other cases, let F(n, k) denotes the position of the survivor for a circle of size n
+	and with k skipping rule.
+	After the k-th person is killed, the circle shrinks by one to size n-1 and the position of
+	the survivor is now F(n-1, k) + k (mod n). The base case is when n = 1 where F(1, k) = 0.
+	Time complexity of O(n).

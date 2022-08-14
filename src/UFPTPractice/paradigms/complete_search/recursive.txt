@@ -1,0 +1,86 @@
+Recursive
+
+Example: Simple Backtracking
+	PS: Chess with an 8x8 board, it is possible to place 8-Queens on the board such that no
+	two queens attack each other.
+	Determine all such possible arrangements given the position of one of the Queens
+
+	Naive 64C8 ~4B Solution:
+		Enumerate all combinations of 8 different cells out of the 8x8 possible cells and see
+		if they can be placed without conflicts
+	
+	Still Naive 8^8 ~17M Solution:
+		Each queen can only occupy one column, so put one Queen in each column.
+		Borderline passing
+		Likely to receive a TLE
+
+	8! ~40k Idea:
+		No two queens can share the same column or row. Simplify the original problem to finding
+		the valid permutations among 8! row positions.
+		Value of row[i] describes the row position of the Queen in col i
+
+	Sub ~40k Ideas:
+		No two Queens can share any two diagonal lines
+		Let Queen A be at (i, j) and Queen B at (k, l). 
+		If abs(i-k) == abs(j-l), they attack each other
+		
+		Recursive Backtracking:
+
+			int row[8], a, b, lineCounter;
+
+			bool canPlace(int r, int c) {
+				for (int prev = 0; prev < c; ++prev)
+					if ((row[prev] == r) || (abs(row[prev]-r) == abs(prev-c)))
+						return false;
+				return true;
+			}
+
+			void backtrack(int c) {
+				if ((c == 8) && (row[b] == a)) {
+					print("%2d     %d", ++lineCounter, row[0]+1);
+					for (int j = 1; j < 8; ++j) printf(" %d", row[j]+1);
+					printf("\n");
+					return;
+				}
+				for (int r = 0; r < 8; ++r) {
+					if ((c == b) && (r != a)) continue;
+					if (canPlace(r, c))
+						row[c] = r, backtrack(c+1);
+				}
+			}
+
+			int main() {
+				int TC; scanf("%d", &TC);
+				while (TC--) {
+					scanf("%d %d", &a, &b); --a; --b;
+					memset(row, 0, sizeof row); lineCounter = 0;
+					printf("SOLN     COLUMN\n");
+					printf(" #     1 2 3 4 5 6 7 8\n\n");
+					backtrack(0);
+					if (TC) printf("\n");
+				}
+				return 0;
+			}
+
+Example: More challenging backtracking
+	PS: Given an n x n chessboard, n <= 15, where some cells are bad, how many ways can you place N-Queens.
+	
+	Previous solution not fast enough for n = 15.
+	Reason it's not good enough is because checking valid position is slow.
+	Instead compare using 3 Boolean arrays using a bitset. 
+	bitset<30> rw, ld, rd;
+	2 x n - 1 diagonals, so max of 27
+
+	When a queen is placed at (r, c) flag that rw[r] is true, ld[r-c+n-1] = true and [r+c] = true
+
+	Extended Solution:
+		void backtrack(int c) {
+			if (c == n) { ++ans; return; }
+			for (int r = 0; r < n; ++r) {
+				if ((board[r][c] !+ '*') && !rw[r] && !ld[r-c+n-1] && !rd[r+c]) {
+					rw[r] = ld[r-c+n-1] = rd[r+c] = true;
+					backtrack(c+1);
+					rw[r] = ld[r-c+n-1] = rd[r+c] = false;
+				}
+			}
+		} 

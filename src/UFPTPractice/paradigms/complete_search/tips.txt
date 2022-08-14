@@ -1,0 +1,89 @@
+Tips
+
+1. Filtering vs Generating
+	
+	Programs that examine lots of candidate solutions and choose the ones that are correct
+	are called filters. Programs that gradually build the solutions and immediately prune 
+	invalid partial solutions are called 'generators'.
+	
+	Generator programs are generally easier to implement when written recursively as they
+	provide greater flexibility
+	
+	Filters are easier to code but run slower given  that it is far more difficult to prune
+	a search space iteratively.
+
+2. Prune Infeasible/Inferior Search Space Early
+	
+	When generating solutions using recursive backtracking, a partial solution that never yields
+	a solution may be encountered. The search can be pruned there.
+	Rule of Thumb: Earlier pruning is better
+
+3. Utilize Symmetries
+	
+	In the 8-Queens problem, there are 92 solutions but only 12 unique solutions.
+	The 12 solutions can be found, then rotated and reflected into the full 92 solutions.
+	This will often complicate the code, so it can be ignored in some cases.
+
+4. Pre-Computation / Pre-Calculation
+
+	Sometimes it's helpful to generate tables to accelrate the lookup of a result
+	prior to the execution of the program. Pre-Computation is a trade of memory for time.
+	This can rarely be used in Competitive Programming.
+
+	For example: Use a slower generator program to find all 92 solutions of 8-Queens, then 
+	use a different program to print out the solutions.
+
+5. Solve the Problem Backwards
+
+	Use a less obvious angle to solve the problem.
+
+	Ex. Rat Attack
+		Image a 2D array up to 1025 x 1025 containing rats
+		There are n <= 20 000 rats speard across the cells. 
+		Determine which cell should be gas-bombed  so that the number of rats killed in 
+		a square box (x-d, y-d) to (x+d, y+d) is maximized. The value d is the power
+		of the gas-bomb.
+
+		An immediate solution is to bomb each of the 1025^2 squares and select the most
+		effective location. Perform an O(d^2) search at each cell to find the number of
+		killed rats.
+
+		Approached backwards, create an array killed[1025][1025]. For each rate population at
+		coordinate (x, y), add it to killed[i][j], where |i-x| <= d and |j-y| <= d.
+		Preprocessing takes O(n*d^2) operations. Then find the max in 1025^2 operations.
+		Leading to a max of ~51M operations.
+
+6. Data Compression
+	
+	Sometimes, the input constraint may seem too big for a complete search solution.
+	However, some remark in the problem description reduces the search space to make
+	it possible.
+
+7. Optimizing Source Code
+	
+	1. Use C++ instead of java or Python. Just faster.
+
+	2. Bit manipulation on an int is much more efficient than index manipulation
+	in an array of booleans. If more than 64 bits is needed, use bitset rather than vector<bool>
+
+	3. Use the faster C-style scanf/printf rather than cin/cout
+
+	4. Use the expected O(nlogn) algorithm::sort
+
+	5. Access a 2D array in a row-major order as multidimensional arrays are stored in a row-major
+	order. Greater likelihood of a cache hit.
+
+	6. Use lower level data structures/types when extra functionality isn't necessary. Ex. array
+	over vector; int over long long
+
+	7. Declare most data structures once by placing them in global scope. Allocate enough memory
+	to deal with the largest input. That way, they don't have to be passed around.
+
+	8. Choose iterative over recursive when possible. Ex: iterative next_permutation and 
+	iterative subset generation techniques using bitmask are far faster than similar
+	recursive solutions.
+
+	9. Array access in nested loops can be slow. Local variables are nice if the same value is
+	used without changing.
+
+	10. Using C-style character arrays will yield faster execution than string.
