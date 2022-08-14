@@ -1,0 +1,18 @@
+Some Complete-Search algorithms are clever and fast
+
+Iterative approaches are used when one can derive the different
+states easily with some formula relative to a certain counter
+and all states have to be checked.
+
+Recursive backtracking is used when it is hard to derive the
+different states with a simple index or one wants to heavily
+prune the search space.
+
+Rules of Thumb to identiy Complete Search problems
+	1. Asks to print all answers and the solution space can be
+	as big as the search space
+	2. Has small search space (worst case < 100M)
+	3. Suspiciously large time limit constaint and lots of pruning
+	potential
+	4. Can be pre-calculated
+	5. Is a known NP-hard/complete problem
