@@ -2,38 +2,49 @@
 
 using namespace std;
 
+#define LSOne(S) ((S) & -(S));
+
+string recitals[10];
+
 int main() {
 
   int n; cin >> n;
-  vector<int> recitals(n, 0);
-
-  string s;
 
   for(int i = 0; i < n; i++) {
-    cin >> s;
-    for(int j = 0; j < s.size(); j++) {
-      recitals[i] += 1 << (s.at(j)-'a');
-    }
+    cin >> recitals[i];
   }
   
-  sort(recitals.begin(), recitals.end());
+  sort(recitals, recitals+n);
 
   int ans = 500;
-  int cur = 0;
 
-  while(next_permutation(recitals.begin(), recitals.end())) {
-    cur = 0;
-    for(int i = 0; i < n-1; i++) {
-      for(int j =  0; j < 26; j++) {
-        if(recitals[i] & (1 << j) && recitals[i+1] & (1 << j)) {
-          cur++;
-          if(cur > ans) break;
-        }
-      }
-      if(cur > ans) break;
+  do{
+    int changes = 0, dance1 = 0, dance2 = 0;
+
+    for (auto dancer: recitals[0]) {
+      dance2 = dance2 | (1<<(dancer - 'A'));
     }
-    ans = min(ans, cur);
+
+    for(int i = 1; i < n; i++) {
+      dance1 = dance2;
+      dance2 = 0;
+      for(auto dancer : recitals[i]) {
+        dance2 = dance2 | (1 << (dancer - 'A'));
+      }
+
+      int dance_combine = dance1 & dance2;
+
+      while(dance_combine > 0) {
+        dance_combine -= LSOne(dance_combine);
+        changes++;
+      }
+
+      if (changes > ans) break;
+    }
+
+    ans = min(ans, changes);
   }
+  while(next_permutation(recitals, recitals+n));
   
   cout << ans;
 
