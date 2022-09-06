@@ -1,0 +1,85 @@
+Determine a^b in O(logb) time
+
+The idea is to take the binary representation of b.
+Multiply all necessary multiples of b, requiring at most log2(b) multiplications;
+
+Ex. 3^13 = 3^1101 = 3^8*3^4*3^1
+  So calculate from 3^0 to 3^8, squaring at each turn
+  Then multiply all together (or do it recursively)
+
+Recursive solution
+
+long long binpow(long long a, long long b) {
+  if(b == 0) return 1;
+  long long res = binpow(a, b/2);
+  if(b % 2) 
+    return res * res * a;
+  else 
+    return res * res;
+}
+
+Non-recursive solution
+
+// Works with modular multiplication. 
+// Replace every multiplication with modular multiplication ie res = res * a % m
+
+long long binpow(long long a, long long b) {
+  long long res = 1;
+  while(b > 0) {
+    if(b & 1)
+      res = res * a;
+    a = a * a;
+    b >>= 1;
+  }
+}
+
+Applications:
+
+  Fibonacci in O(logn)
+
+  Apply a permutation k times in O(nlogk)
+
+  Fast application of a set of geometric operations to a set of points
+    Given n points pi, apply m transformations to each of the points
+    Shift/Scale/Rotation around an axis by a given angle.
+    Loop operation applies a given list of transformations k times
+
+    Each transformation can be written as a 4x4 matrix
+      Ex.
+        Shift operation, x by 5, y by 7, z by 9
+        1 0 0 0
+        0 1 0 0
+        0 0 1 0
+        5 7 9 1
+
+        Scaling operation, x by 10, others by 5
+        10 0 0 0
+         0 5 0 0
+         0 0 5 0
+         0 0 0 1
+
+        Rotation operation, rotate theta degrees around the x axis ccwise
+        1    0     0 0
+        0 cost -sint 0
+        0 sint  cost 0
+        0    0     0 1
+
+      With every operation as a 4x4 matrix
+      The sequence can be seen as a product of the matrices
+      and the loop of k repetitions can be seen as the matrix
+      raised to the k-th power.
+
+      The end matrix can first be calculated in O(mlogk)
+      Then applied to n points for a total complexity of O(n + mlogk)
+
+  Number of paths of length k in a graph
+    Find paths of length k from vertex u to v in a directed
+    unweighted graph
+
+    https://cp-algorithms.com/graph/fixed_length_paths.html
+
+  Modular multiplication
+
+    Fast apparently
+
+    https://cs.stackexchange.com/questions/77016/modular-multiplication

@@ -1,0 +1,25 @@
+Find
+  a*x + b*y = gcd(a, b)
+
+  At the end of the algorithm
+  a = g, b = 0 where g is the gcd
+  so x,y = 1,0
+
+  Use backwards recursive calls to determine how x,y change
+
+  int gcd(int a, int b, int& x, int& y) {
+
+    // x,y becomes 1,0 when done with the algo
+    if (b == 0) {
+        x = 1;
+        y = 0;
+        return a;
+    }
+
+    // Math otherwise to determine x,y from previous values
+    int x1, y1;
+    int d = gcd(b, a % b, x1, y1);
+    x = y1;
+    y = x1 - y1 * (a / b);
+    return d;
+}
